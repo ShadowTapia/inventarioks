@@ -259,7 +259,7 @@ return [
     'register_url' => 'register',
     'password_reset_url' => 'password/reset',
     'password_email_url' => 'password/email',
-    'profile_url' => false,
+    'profile_url' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -322,6 +322,11 @@ return [
         [
             'text' => 'profile',
             'route'  => 'profile.show',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+        [
+            'text' => 'Usuarios',
+            'route'  => 'user.index',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
