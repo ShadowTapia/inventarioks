@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Livewire\UsersList;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,5 +27,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified'], 'prefix' => 'dashboa
 
     Route::group(['namespace' => 'App\Http\Controllers\Admin'], function () {
         Route::resource('user', UserController::class);
+        Route::get('cuser', function () {
+            return view('admin.users.cindex');
+        });
     });
 });
