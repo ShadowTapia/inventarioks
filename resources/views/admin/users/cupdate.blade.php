@@ -1,17 +1,13 @@
 @extends('adminlte::page')
 
-@section('title', 'Usuarios')
+@section('title', 'Update Usuario')
 
 @section('content_header')
-    <h1>Usuarios</h1>
+
 @stop
 
 @section('content')
-    <x-fondo-card>
-        <x-slot name="html">
-            @livewire('users-list')
-        </x-slot>
-    </x-fondo-card>
+        @livewire('user-save')
 @stop
 
 @section('css')

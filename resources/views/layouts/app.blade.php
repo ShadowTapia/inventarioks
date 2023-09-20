@@ -1,28 +1,22 @@
 @extends('adminlte::page')
 
 @section('title', 'Dashboard')
-
+    <title>{{ $title ?? 'Page Title' }}</title>
 @section('content_header')
-    <h1>Sistema Inventario KS</h1>
+
 @stop
 
 @section('content')
-    <div class="card">
-        <div class="card header">
-            <h1 class="card-title">Bienvenido a Nuestro Sistema</h1>
-        </div>
-        <div class="card-body">
-            <p>Sistema creado para inventariar todos los dispositivos, materiales y maquinarias que sean necearias registrar.</p>
-        </div>
-    </div>
+    {{ $slot }}
 @stop
 
 @section('css')
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <!-- Styles -->
     @livewireStyles
+    @vite(['resources/css/app.css'])
 @stop
 
 @section('js')
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.0/dist/cdn.min.js"></script>
     @livewireScripts
+    @vite(['resources/js/app.js'])
 @stop

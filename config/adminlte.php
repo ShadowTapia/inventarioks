@@ -326,8 +326,8 @@ return [
         ],
         [
             'text' => 'Usuarios',
-            'route'  => 'user.index',
-            'icon' => 'fas fa-fw fa-user',
+            'route'  => 'usuarios',
+            'icon' => 'fas fa-fw fa-users',
         ],
         [
             'text' => 'change_password',

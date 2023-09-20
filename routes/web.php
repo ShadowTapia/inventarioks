@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\UserSave;
 use App\Livewire\UsersList;
 use Illuminate\Support\Facades\Route;
 
@@ -27,8 +28,17 @@ Route::group(['middleware' => ['auth:sanctum', 'verified'], 'prefix' => 'dashboa
 
     Route::group(['namespace' => 'App\Http\Controllers\Admin'], function () {
         Route::resource('user', UserController::class);
-        Route::get('cuser', function () {
-            return view('admin.users.cindex');
-        });
+        // Route::get('cuser', function () {
+        //     return view('admin.users.cindex');
+        // })->name('usuarios');
+        // Route::get('csave', function () {
+        //     return view('admin.users.csave');
+        // });
+        // Route::get('cupdate/{id}', function () {
+        //     return view('admin.users.cupdate');
+        // });
     });
+    Route::get('cuser', UsersList::class)->name('usuarios');
+    Route::get('create-user', UserSave::class);
+    Route::get('update-user/{id}', UserSave::class);
 });

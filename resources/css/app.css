@@ -5,3 +5,11 @@
 [x-cloak] {
     display: none;
 }
+
+.p-filter-button{
+    width: 20px;
+}
+
+.p-sm-button {
+    @apply px-1 py-1 !important;
+}
