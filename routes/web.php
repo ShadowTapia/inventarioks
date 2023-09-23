@@ -39,6 +39,6 @@ Route::group(['middleware' => ['auth:sanctum', 'verified'], 'prefix' => 'dashboa
         // });
     });
     Route::get('cuser', UsersList::class)->name('usuarios');
-    Route::get('create-user', UserSave::class);
-    Route::get('update-user/{id}', UserSave::class);
+    Route::get('create-user', UserSave::class)->name('user.create');
+    Route::get('update-user/{id}', UserSave::class)->name('user.edit');
 });

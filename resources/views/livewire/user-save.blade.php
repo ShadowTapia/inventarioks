@@ -33,6 +33,10 @@
             <x-secondary-button class="mt-2 mr-2" type="submit">
                 {{ __('Guardar') }}
             </x-secondary-button>
+
+            <div wire:loading>
+                  Registrando datos...
+            </div>
         </form>
     </x-slot>
 
