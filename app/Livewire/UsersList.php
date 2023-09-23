@@ -14,6 +14,8 @@ class UsersList extends Component
     public $name;
     public $title;
 
+    public $confirmingUserDeletion = false;
+
     protected $queryString = ['name'];
 
     public function mount()
@@ -21,6 +23,7 @@ class UsersList extends Component
         $this->name = "";
         $this->title = "Lista de Usuarios";
     }
+
 
     #[Layout('layouts.app')]
     public function render()
@@ -32,18 +35,34 @@ class UsersList extends Component
                 ->orWhere('email', 'like', '%' . $this->name . '%');
         }
 
-        $users = $users->paginate(5);
+        $users = $users->paginate(10);
 
-        return view('livewire.users-list', ['users' => $users])->title($this->title);
+        return view('livewire.users-list', ['users' => $users, 'title' => $this->title]);
     }
 
+    /**
+     * Se encarga de limpiar el input de filtrado
+     */
     public function cleanFilter()
     {
         $this->name = "";
     }
 
+    /**
+     * Se encarga de eliminar un usuario
+     */
     public function delUser(User $user)
     {
         $user->deleteOrFail();
+        $this->confirmingUserDeletion = false;
+        return redirect()->back()->with(['success' => 'Usuario borrado correctamente.-']);
+    }
+
+    /**
+     * Recibe la confirmación para mostrar el modal de eliminación
+     */
+    public function confirmUserDeletion($id)
+    {
+        $this->confirmingUserDeletion = $id;
     }
 }

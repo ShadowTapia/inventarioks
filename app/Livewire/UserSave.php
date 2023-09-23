@@ -6,7 +6,6 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
 use Livewire\Component;
 
 class UserSave extends Component
@@ -34,7 +33,7 @@ class UserSave extends Component
     #[Layout('layouts.app')]
     public function render()
     {
-        return view('livewire.user-save')->title($this->title);
+        return view('livewire.user-save', ['title' => $this->title]);
     }
 
     public function submit()
@@ -47,9 +46,10 @@ class UserSave extends Component
 
         $this->password = Hash::make($this->password);
 
+        //Se inicia la transacción
         DB::beginTransaction();
         try {
-            if ($this->user) {
+            if ($this->user) { //Si el existe el usuario, se produce la actualización
                 $this->user->update([
                     'name' => $this->name,
                     'email' => $this->email,
@@ -57,7 +57,7 @@ class UserSave extends Component
                 ]);
                 $this->msg = "Usuario actualizado con exito!!";
             } else {
-                User::create([
+                User::create([ //Si no existe se procede a guardar la info
                     'name' => $this->name,
                     'email' => $this->email,
                     'password' => $this->password
