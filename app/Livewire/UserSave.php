@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -66,6 +67,9 @@ class UserSave extends Component
             }
             DB::commit();
             return redirect()->route('usuarios')->with(['success' => $this->msg]);
+        } catch (ValidationException $e) {
+            DB::rollBack();
+            throw $e;
         } catch (\Exception $e) {
             DB::rollBack();
             $this->msg = "Error, ¡favor de intentar mas tarde!";

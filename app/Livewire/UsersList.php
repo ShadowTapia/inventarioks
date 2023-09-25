@@ -11,8 +11,17 @@ class UsersList extends Component
 {
     use WithPagination;
 
+    public $columns = [
+        'id',
+        'name',
+        'email'
+    ];
+
     public $name;
     public $title;
+
+    public $sortColumn = "id";
+    public $sortDirection = "asc";
 
     public $confirmingUserDeletion = false;
 
@@ -28,7 +37,7 @@ class UsersList extends Component
     #[Layout('layouts.app')]
     public function render()
     {
-        $users = User::orderBy('created_at', 'desc');
+        $users = User::orderBy($this->sortColumn, $this->sortDirection);
 
         if ($this->name) {
             $users->where('name', 'like', '%' . $this->name . '%')
@@ -64,5 +73,11 @@ class UsersList extends Component
     public function confirmUserDeletion($id)
     {
         $this->confirmingUserDeletion = $id;
+    }
+
+    public function sort($column)
+    {
+        $this->sortColumn = $column;
+        $this->sortDirection = $this->sortDirection == 'asc' ? 'desc' : 'asc';
     }
 }

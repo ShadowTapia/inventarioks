@@ -6,23 +6,35 @@
         <x-notification />
         <x-a-button href="{{ route('user.create') }}" class="p-1 bg-green-800 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-600">Crear</x-a-button>
         <div>
-            <div class="mt-2">
-                <x-label for="name" value="{{ __('Busqueda') }}" />
-                <x-input id="name" type="text" name="name" wire:model.lazy="name" wire:keydown.enter="$refresh" class="block w-full mt-1"/>
-            </div>
+            <div class="flex mt-1">
+                <div>
+                    <x-input id="name" type="text" placeholder="Ingrese nombre o email" name="name" wire:model.live="name" wire:keydown.enter="$refresh" class="w-full mt-1"/>
+                </div>
 
-            <x-secondary-button wire:click="cleanFilter" class="p-edit-button">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z" />
-                  </svg>
-            </x-secondary-button>
+                <x-secondary-button wire:click="cleanFilter" class="ml-2 p-filter-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z" />
+                      </svg>
+                </x-secondary-button>
+            </div>
 
             <table class="w-full table-auto">
                 <thead>
                     <tr>
-                        <th class="p-3">Id</th>
-                        <th class="p-3">Nombre</th>
-                        <th class="p-3">Email</th>
+                        @foreach ($columns as $c)
+                            <th class="p-3" wire:click="sort('{{ $c }}')">
+                                <button>
+                                    {{ $c }}
+                                    @if ($sortColumn == $c)
+                                        @if ($sortDirection == 'asc'):
+                                            &uarr;
+                                        @else
+                                            &darr;
+                                        @endif
+                                    @endif
+                                </button>
+                            </th>
+                        @endforeach
                         <th class="p-3">Acciones</th>
                     </tr>
                 </thead>
@@ -32,8 +44,8 @@
                             <td class="p-3 border">{{ $u->id }}</td>
                             <td class="p-3 border">{{ $u->name }}</td>
                             <td class="p-3 border">{{ $u->email }}</td>
-                            <td>
-                                <x-a-button class="p-sm-button bg-violet-800 hover:bg-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-600" href="{{ route('user.edit',$u) }}">
+                            <td class="flex justify-center p-3 border">
+                                <x-a-button class="mr-2 p-sm-button bg-violet-800 hover:bg-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-600" href="{{ route('user.edit',$u) }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                     </svg>
@@ -79,5 +91,6 @@
             </x-danger-button>
         </x-slot>
     </x-dialog-modal>
+
     </x-slot>
 </x-fondo-card>

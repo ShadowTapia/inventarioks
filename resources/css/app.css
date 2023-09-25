@@ -13,3 +13,7 @@
 .p-sm-button {
     @apply px-1 py-1 !important;
 }
+
+.p-filter-button {
+    @apply px-0 py-0 !important;
+}

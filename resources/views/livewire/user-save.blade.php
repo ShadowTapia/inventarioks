@@ -12,21 +12,21 @@
             <!-- Name -->
             <div class="col-span-6 sm:col-span-4">
                 <x-label for="name" value="{{ __('Nombre') }}" />
-                <x-input id="name" type="text" class="block w-full mt-1" wire:model="name" required />
+                <x-input id="name" type="text" class="block w-full mt-1" wire:model.lazy="name" required />
                 <x-input-error for="name" class="mt-2" />
             </div>
 
             <!-- Email -->
             <div class="col-span-6 sm:col-span-4">
                 <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" type="email" class="block w-full mt-1" wire:model="email" required/>
+                <x-input id="email" type="email" class="block w-full mt-1" wire:model.lazy="email" required/>
                 <x-input-error for="email" class="mt-2" />
             </div>
 
             <!-- Password -->
             <div class="col-span-6 sm:col-span-4">
                 <x-label for="password" value="{{ __('Contraseña') }}" />
-                <x-input id="password" type="password" class="block w-full mt-1" wire:model="password" required/>
+                <x-input id="password" type="password" class="block w-full mt-1" wire:model.lazy="password" required/>
                 <x-input-error for="password" class="mt-2" />
             </div>
 
