@@ -18,11 +18,11 @@
                 </x-secondary-button>
             </div>
 
-            <table class="w-full table-auto">
-                <thead>
+            <table class="w-full mt-3 table-auto">
+                <thead class="bg-sky-900">
                     <tr>
                         @foreach ($columns as $c)
-                            <th class="p-3" wire:click="sort('{{ $c }}')">
+                            <th class="p-3 border" wire:click="sort('{{ $c }}')">
                                 <button>
                                     {{ $c }}
                                     @if ($sortColumn == $c)
@@ -35,7 +35,7 @@
                                 </button>
                             </th>
                         @endforeach
-                        <th class="p-3">Acciones</th>
+                        <th class="p-3 border">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
