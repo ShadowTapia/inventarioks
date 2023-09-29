@@ -253,7 +253,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'dashboard',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -297,6 +297,11 @@ return [
             'topnav_right' => true,
         ],
         [
+            'text' => 'Link 1',
+            'url' => '#',
+            'topnav' => true,
+        ],
+        [
             'type'         => 'fullscreen-widget',
             'topnav_right' => true,
         ],
@@ -312,12 +317,17 @@ return [
             'can'  => 'manage-blog',
         ],
         [
+            'text' => 'Dashboard',
+            'route' => 'dashboard',
+            'icon' => 'fas fa-tachometer-alt fa-fw',
+        ],
+        /* [
             'text'        => 'pages',
             'url'         => 'admin/pages',
             'icon'        => 'far fa-fw fa-file',
             'label'       => 4,
             'label_color' => 'success',
-        ],
+        ], */
         ['header' => 'account_settings'],
         [
             'text' => 'profile',

@@ -25,6 +25,8 @@ class UsersList extends Component
 
     public $confirmingUserDeletion = false;
 
+    protected $paginationTheme = "bootstrap";
+
     protected $queryString = ['name'];
 
     public function mount()
@@ -33,6 +35,10 @@ class UsersList extends Component
         $this->title = "Lista de Usuarios";
     }
 
+    public function updatingName()
+    {
+        $this->resetPage();
+    }
 
     #[Layout('layouts.app')]
     public function render()

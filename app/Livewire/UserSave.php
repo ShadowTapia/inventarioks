@@ -8,12 +8,14 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Spatie\Permission\Models\Role;
 
 class UserSave extends Component
 {
     public $name;
     public $email;
     public $password;
+
 
     public $user;
     public $title;
@@ -34,13 +36,16 @@ class UserSave extends Component
     #[Layout('layouts.app')]
     public function render()
     {
-        return view('livewire.user-save', ['title' => $this->title]);
+        $roles = Role::all();
+
+        return view('livewire.user-save', ['title' => $this->title, 'roles' => $roles]);
     }
 
     public function submit()
     {
         if ($this->user)
             $this->rules['email'] = 'required|email|unique:users,email,' . $this->user->id;
+
 
         //TODO validar
         $this->validate();

@@ -17,7 +17,7 @@
                       </svg>
                 </x-secondary-button>
             </div>
-
+            @if($users->count())
             <table class="w-full mt-3 table-auto">
                 <thead class="bg-sky-900">
                     <tr>
@@ -68,8 +68,15 @@
                     @endforelse
                 </tbody>
             </table>
+            @else
+                <div class="card-body">
+                    <strong>No existen registros</strong>
+                </div>
+            @endif
             <br>
-            {{ $users->links() }}
+            <div class="card-footer">
+                {{ $users->links() }}
+            </div>
         </div>
         <!-- Delete User Confirmation Modal -->
     <x-dialog-modal wire:model.live="confirmingUserDeletion">
