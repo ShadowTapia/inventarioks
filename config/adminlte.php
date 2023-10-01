@@ -320,6 +320,7 @@ return [
             'text' => 'Dashboard',
             'route' => 'dashboard',
             'icon' => 'fas fa-tachometer-alt fa-fw',
+            'can' => 'dashboard',
         ],
         /* [
             'text'        => 'pages',
@@ -338,6 +339,7 @@ return [
             'text' => 'Usuarios',
             'route'  => 'usuarios',
             'icon' => 'fas fa-fw fa-users',
+            'can' => 'usuarios',
         ],
         [
             'text' => 'change_password',

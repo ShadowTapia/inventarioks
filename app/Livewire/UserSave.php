@@ -15,7 +15,9 @@ class UserSave extends Component
     public $name;
     public $email;
     public $password;
+    public $enabledEdit = false; //Se encargara de habilitar la asignación de roles cuando exista el usuario
 
+    public array $userRoles;
 
     public $user;
     public $title;
@@ -25,7 +27,8 @@ class UserSave extends Component
     protected $rules = [
         'name' => 'required|min:3',
         'email' => 'required|email|unique:users,email',
-        'password' => 'required'
+        'password' => 'required',
+        'userRoles.*' => 'exists:roles,id',
     ];
 
     public function mount($id = null)
@@ -36,9 +39,12 @@ class UserSave extends Component
     #[Layout('layouts.app')]
     public function render()
     {
-        $roles = Role::all();
-
-        return view('livewire.user-save', ['title' => $this->title, 'roles' => $roles]);
+        return view('livewire.user-save', ['title' => $this->title, 'enableEdit' => $this->enabledEdit])
+            ->withRoles(
+                cache()->remember('roles', 60, function () {
+                    return Role::all();
+                })
+            );
     }
 
     public function submit()
@@ -61,6 +67,7 @@ class UserSave extends Component
                     'email' => $this->email,
                     'password' => $this->password
                 ]);
+                $this->user->roles()->sync($this->userRoles);
                 $this->msg = "Usuario actualizado con exito!!";
             } else {
                 User::create([ //Si no existe se procede a guardar la info
@@ -89,7 +96,9 @@ class UserSave extends Component
         if ($id) {
             $this->title = "Actualizar Usuario";
             $user = User::findOrFail($id);
+            $this->userRoles = $user->roles()->pluck('id')->toArray();
         } else {
+            $this->enabledEdit = false;
             $this->title = "Crear Usuario";
         }
 
@@ -98,6 +107,7 @@ class UserSave extends Component
         if ($this->user) {
             $this->name = $this->user->name;
             $this->email = $this->user->email;
+            $this->enabledEdit = true;
         }
     }
 }

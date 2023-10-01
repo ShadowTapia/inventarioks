@@ -29,17 +29,18 @@
                 <x-input id="password" type="password" class="block w-full mt-1" wire:model.lazy="password" required/>
                 <x-input-error for="password" class="mt-2" />
             </div>
-
-            <!-- Roles -->
-            <div class="col-span-6 sm:col-span-4">
-                <x-label for="roles" value="{{ __('Roles') }}"/>
-                @foreach ($roles as $r )
-                    <label>
-                        <input wire:model.lazy="roles" class="class="border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" value="{{ $r->id }}" type="checkbox"/>
-                        {{ $r->name }}
-                    </label>
-                @endforeach
-            </div>
+            @if($enableEdit)
+                <!-- Roles -->
+                <div class="col-span-6 sm:col-span-4">
+                    <x-label for="roles" value="{{ __('Roles') }}"/>
+                    @foreach ($roles as $role )
+                        <div class="flex justify-between">
+                            <label for="role-{{$role->name}}">{{$role->name}}</label>
+                            <input class="rounded form-checkbox" id="role-{{$role->name}}" type="checkbox" value="{{$role->id}}" wire:model.lazy="userRoles"/>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
 
             <x-secondary-button class="mt-2 mr-2" type="submit">
                 {{ __('Guardar') }}
