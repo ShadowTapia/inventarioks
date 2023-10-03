@@ -47,7 +47,7 @@
             </x-secondary-button>
 
             <div wire:loading>
-                  Registrando datos...
+                  Validando datos...
             </div>
         </form>
     </x-slot>

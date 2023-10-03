@@ -342,6 +342,12 @@ return [
             'can' => 'usuarios',
         ],
         [
+            'text' => 'Roles',
+            'route'  => 'roles',
+            'icon' => 'fas fa-user-cog fa-fw',
+            //'can' => 'usuarios',
+        ],
+        [
             'text' => 'change_password',
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-lock',
