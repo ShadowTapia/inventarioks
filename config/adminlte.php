@@ -345,7 +345,7 @@ return [
             'text' => 'Roles',
             'route'  => 'roles',
             'icon' => 'fas fa-user-cog fa-fw',
-            //'can' => 'usuarios',
+            'can' => 'roles',
         ],
         [
             'text' => 'change_password',

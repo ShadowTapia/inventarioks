@@ -40,12 +40,16 @@ Route::group(['middleware' => ['auth:sanctum', 'verified'], 'prefix' => 'dashboa
         //     return view('admin.users.cupdate');
         // });
     });
+    //Pagina de error
+    Route::fallback(function () {
+        return view('errors.404');
+    });
     //Usuarios
     Route::get('cuser', UsersList::class)->middleware('can:usuarios')->name('usuarios');
-    Route::get('create-user', UserSave::class)->name('user.create');
-    Route::get('update-user/{id}', UserSave::class)->name('user.edit');
+    Route::get('create-user', UserSave::class)->middleware('can:usuarios')->name('user.create');
+    Route::get('update-user/{id}', UserSave::class)->middleware('can:usuarios')->name('user.edit');
     //Roles
-    Route::get('croles', Role::class)->name('roles');
-    Route::get('create-rol', RoleSave::class)->name('rol.create');
-    Route::get('update-rol/{id}', RoleSave::class)->name('rol.edit');
+    Route::get('croles', Role::class)->middleware('can:roles')->name('roles');
+    Route::get('create-rol', RoleSave::class)->middleware('can:roles')->name('rol.create');
+    Route::get('update-rol/{id}', RoleSave::class)->middleware('can:roles')->name('rol.edit');
 });

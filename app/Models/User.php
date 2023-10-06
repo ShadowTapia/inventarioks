@@ -75,4 +75,13 @@ class User extends Authenticatable
     {
         return 'user/profile';
     }
+
+    /**
+     * Relación uno es a muchos
+     * Tabla Product
+     */
+    public function product()
+    {
+        return $this->hasMany(product::class);
+    }
 }
