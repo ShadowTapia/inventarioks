@@ -9,6 +9,15 @@ class devices extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'numserie',
+        'fechacompra',
+        'comentarios',
+        'estado',
+        'product_id',
+        'department_id',
+    ];
+
     /**
      * Relación uno es a muchos inversa
      * Tabla Product

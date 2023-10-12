@@ -18,12 +18,12 @@ return new class extends Migration
             $table->longText('comentarios', 100)->nullable();
             $table->enum('estado', [1, 2])->default(1); //1 Activo 2 Inactivo
 
-            $table->foreignId('products_id')
+            $table->foreignId('product_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('restrict');
 
-            $table->foreignId('departments_id')
+            $table->foreignId('department_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('restrict');

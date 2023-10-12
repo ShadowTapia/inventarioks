@@ -347,6 +347,13 @@ return [
             'icon' => 'fas fa-user-cog fa-fw',
             'can' => 'roles',
         ],
+        ['header' => 'Sistema Inventario'],
+        [
+            'text' => 'Departamentos',
+            'route' => 'departamentos',
+            'icon' => 'fas fa-door-open',
+            'can' => 'departamentos',
+        ],
         [
             'text' => 'change_password',
             'url'  => 'admin/settings',

@@ -22,8 +22,8 @@ class DevicesFactory extends Factory
         return [
             'numserie' => $numserie,
             'estado' => $this->faker->randomElement([1, 2]),
-            'products_id' => product::all()->random()->id,
-            'departments_id' => department::all()->random()->id,
+            'product_id' => product::all()->random()->id,
+            'department_id' => department::all()->random()->id,
         ];
     }
 }

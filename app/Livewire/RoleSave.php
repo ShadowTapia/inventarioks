@@ -32,8 +32,6 @@ class RoleSave extends Component
     #[Layout('layouts.app')]
     public function render()
     {
-        //$permissions = Permission::all(); //Recuperamos todos los permisos
-
         return view('livewire.role-save', ['title' => $this->title])
             ->withPermissions(
                 cache()->remember('permissions', 60, function () {

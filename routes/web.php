@@ -1,9 +1,12 @@
 <?php
 
+use App\Livewire\Department;
+use App\Livewire\DepaSave;
 use App\Livewire\Role;
 use App\Livewire\RoleSave;
 use App\Livewire\UserSave;
 use App\Livewire\UsersList;
+use App\Models\department as ModelsDepartment;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,4 +55,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified'], 'prefix' => 'dashboa
     Route::get('croles', Role::class)->middleware('can:roles')->name('roles');
     Route::get('create-rol', RoleSave::class)->middleware('can:roles')->name('rol.create');
     Route::get('update-rol/{id}', RoleSave::class)->middleware('can:roles')->name('rol.edit');
+    //Departamentos
+    Route::get('cdepas', Department::class)->middleware('can:departamentos')->name('departamentos');
+    Route::get('create-depa', DepaSave::class)->middleware('can:departamentos')->name('depa.create');
+    Route::get('update-depa/{id}', DepaSave::class)->middleware('can:departamentos')->name('depa.edit');
 });

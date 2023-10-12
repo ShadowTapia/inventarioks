@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 
 @section('title', 'Dashboard')
-    <title>{{ $title ?? 'Page Title' }}</title>
+    <title>{{ $title ?? 'Sistema Inventario' }}</title>
 @section('content_header')
 
 @stop
