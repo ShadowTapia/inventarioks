@@ -68,9 +68,15 @@ class UsersList extends Component
      */
     public function delUser(User $user)
     {
-        $user->deleteOrFail();
-        $this->confirmingUserDeletion = false;
-        return redirect()->back()->with(['success' => 'Usuario borrado correctamente.-']);
+        $products = $user->products()->count();
+        if ($products > 0) {
+            $this->confirmingUserDeletion = false;
+            return redirect()->back()->with(['error' => 'Existen productos asociados a este Usuario, favor de verificar.-']);
+        } else {
+            $user->deleteOrFail();
+            $this->confirmingUserDeletion = false;
+            return redirect()->back()->with(['success' => 'Usuario borrado correctamente.-']);
+        }
     }
 
     /**

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->longText('comentarios', 100)->nullable();
             $table->enum('estado', [1, 2])->default(1); //1 Activo 2 Inactivo
 
-            $table->foreignId('product_id')
+            $table->foreignId('products_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('restrict');

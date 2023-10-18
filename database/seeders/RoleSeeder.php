@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -32,5 +31,10 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'depa.create', 'description' => 'Creación de Departamentos'])->assignRole($role1);
         Permission::create(['name' => 'depa.edit', 'description' => 'Edición de Departamentos'])->assignRole($role1);
         Permission::create(['name' => 'depa.destroy', 'description' => 'Eliminación de Departamentos'])->assignRole($role1);
+        //Proveedores
+        Permission::create(['name' => 'suppliers', 'description' => 'Listado de Proveedores'])->assignRole($role1);
+        Permission::create(['name' => 'supp.create', 'description' => 'Creación de Proveedores'])->assignRole($role1);
+        Permission::create(['name' => 'supp.edit', 'description' => 'Edición de Proveedores'])->assignRole($role1);
+        Permission::create(['name' => 'supp.destroy', 'description' => 'Eliminación de Proveedores'])->assignRole($role1);
     }
 }

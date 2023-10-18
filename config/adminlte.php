@@ -355,6 +355,12 @@ return [
             'can' => 'departamentos',
         ],
         [
+            'text' => 'Proveedores',
+            'route' => 'suppliers',
+            'icon' => 'fas fa-shopping-bag',
+            'can' => 'suppliers',
+        ],
+        [
             'text' => 'change_password',
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-lock',

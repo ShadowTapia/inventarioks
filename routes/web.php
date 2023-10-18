@@ -4,6 +4,8 @@ use App\Livewire\Department;
 use App\Livewire\DepaSave;
 use App\Livewire\Role;
 use App\Livewire\RoleSave;
+use App\Livewire\Supplier;
+use App\Livewire\SupplierSave;
 use App\Livewire\UserSave;
 use App\Livewire\UsersList;
 use App\Models\department as ModelsDepartment;
@@ -59,4 +61,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified'], 'prefix' => 'dashboa
     Route::get('cdepas', Department::class)->middleware('can:departamentos')->name('departamentos');
     Route::get('create-depa', DepaSave::class)->middleware('can:departamentos')->name('depa.create');
     Route::get('update-depa/{id}', DepaSave::class)->middleware('can:departamentos')->name('depa.edit');
+    //Proveedores
+    Route::get('csupp', Supplier::class)->middleware('can:suppliers')->name('suppliers');
+    Route::get('create-supp', SupplierSave::class)->middleware('can:suppliers')->name('supp.create');
+    Route::get('update-supp/{id}', SupplierSave::class)->middleware('can:suppliers')->name('supp.edit');
 });

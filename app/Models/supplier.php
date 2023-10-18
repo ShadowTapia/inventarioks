@@ -9,11 +9,19 @@ class supplier extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'address',
+        'phone',
+        'contact',
+        'email',
+    ];
+
     /**
      * Relación uno a muchos
      */
-    public function product()
+    public function products()
     {
-        return $this->hasMany(product::class);
+        return $this->hasMany(products::class, 'supplier_id', 'id');
     }
 }
