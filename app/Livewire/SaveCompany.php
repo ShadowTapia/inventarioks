@@ -2,26 +2,29 @@
 
 namespace App\Livewire;
 
+use App\Models\company;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
-use App\Models\department;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 
-class DepaSave extends Component
+class SaveCompany extends Component
 {
     public $name;
     public $description;
-    public $responsible;
+    public $url;
+    public $email;
+    public $phone;
+    public $contact;
 
-    public $msg = "";
     public $title;
-    public $department;
+    public $msg = "";
+    public $company;
 
     protected $rules = [
         'name' => 'required|min:3',
-        'responsible' => 'regex:/^[\pL\s\-]+$/u',
+        'email' => 'email',
     ];
 
     public function mount($id = null)
@@ -32,33 +35,42 @@ class DepaSave extends Component
     #[Layout('layouts.app')]
     public function render()
     {
-        return view('livewire.depa-save', ['title' => $this->title]);
+        return view('livewire.save-company', ['title' => $this->title]);
     }
 
+    /**
+     *
+     * Función Submit
+     */
     public function submit()
     {
-        //TODO validar
         $this->validate();
 
         DB::beginTransaction();
         try {
-            if ($this->department) {
-                $this->department->update([
+            if ($this->company) {
+                $this->company->update([
                     'name' => $this->name,
                     'description' => $this->description,
-                    'responsible' => $this->responsible,
+                    'url' => $this->url,
+                    'phone' => $this->phone,
+                    'email' => $this->email,
+                    'contact' => $this->contact,
                 ]);
-                $this->msg = 'Departamento actualizado con exito!!';
+                $this->msg = 'Compañía actualizada con exito!!';
             } else {
-                $department = department::create([
+                $company = company::create([
                     'name' => $this->name,
                     'description' => $this->description,
-                    'responsible' => $this->responsible,
+                    'url' => $this->url,
+                    'phone' => $this->phone,
+                    'email' => $this->email,
+                    'contact' => $this->contact,
                 ]);
-                $this->msg = "Departamento creado con exito!!";
+                $this->msg = 'Compañia creada con exito!!';
             }
             DB::commit();
-            return redirect()->route('departamentos')->with(['success' => $this->msg]);
+            return redirect()->route('companies')->with(['success' => $this->msg]);
         } catch (ValidationException $e) {
             DB::rollBack();
             $message = "Error, " . $e->getMessage() . ".¡Favor de informar al Administrador!";
@@ -79,21 +91,24 @@ class DepaSave extends Component
 
     public function init($id)
     {
-        $department = null;
+        $company = null;
 
         if ($id) {
-            $this->title = "Actualizar Departamento";
-            $department = department::findOrFail($id);
+            $this->title = "Actualizar Compañia";
+            $company = company::findOrFail($id);
         } else {
-            $this->title = "Crear Departamento";
+            $this->title = "Crear Compañía";
         }
 
-        $this->department = $department;
+        $this->company = $company;
 
-        if ($this->department) {
-            $this->name = $this->department->name;
-            $this->description = $this->department->description;
-            $this->responsible = $this->department->responsible;
+        if ($this->company) {
+            $this->name = $this->company->name;
+            $this->description = $this->company->description;
+            $this->url = $this->company->url;
+            $this->phone = $this->company->phone;
+            $this->email = $this->company->email;
+            $this->contact = $this->company->contact;
         }
     }
 }

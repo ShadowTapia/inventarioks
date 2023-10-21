@@ -1,9 +1,11 @@
 <?php
 
+use App\Livewire\Companies;
 use App\Livewire\Department;
 use App\Livewire\DepaSave;
 use App\Livewire\Role;
 use App\Livewire\RoleSave;
+use App\Livewire\SaveCompany;
 use App\Livewire\Supplier;
 use App\Livewire\SupplierSave;
 use App\Livewire\UserSave;
@@ -65,4 +67,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified'], 'prefix' => 'dashboa
     Route::get('csupp', Supplier::class)->middleware('can:suppliers')->name('suppliers');
     Route::get('create-supp', SupplierSave::class)->middleware('can:suppliers')->name('supp.create');
     Route::get('update-supp/{id}', SupplierSave::class)->middleware('can:suppliers')->name('supp.edit');
+    //Companies
+    Route::get('ccomp', Companies::class)->middleware('can:companies')->name('companies');
+    Route::get('create-comp', SaveCompany::class)->middleware('can:companies')->name('comp.create');
+    Route::get('update-comp/{id}', SaveCompany::class)->middleware('can:companies')->name('comp.edit');
 });

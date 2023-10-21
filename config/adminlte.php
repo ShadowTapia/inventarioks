@@ -361,6 +361,12 @@ return [
             'can' => 'suppliers',
         ],
         [
+            'text' => 'Compañias',
+            'route' => 'companies',
+            'icon' => 'fas fa-building',
+            'can' => 'companies',
+        ],
+        [
             'text' => 'change_password',
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-lock',

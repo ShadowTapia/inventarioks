@@ -6,6 +6,11 @@
         {{ __('Se encarga de ingresar un nuevo Proveedor.') }}
     </x-slot>
     <x-slot name="content">
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
         <form wire:submit.prevent="submit">
             {{-- nombre --}}
             <div class="colspan-6 sm:col-span-4">
@@ -42,7 +47,7 @@
                 color="purple"
                 name="save-supplier"
                 can_submit="true"
-                class="px-4 py-2 shadow-lg shadow-purple-500/50 border font-semibold text-white text-xs uppercase tracking-widest focus:ring-offset-2 transition ease-in-out">
+                class="px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition ease-in-out border shadow-lg shadow-purple-500/50 focus:ring-offset-2">
                 Guardar
             </x-bladewind.button>
 

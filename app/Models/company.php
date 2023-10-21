@@ -9,11 +9,20 @@ class company extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'description',
+        'url',
+        'phone',
+        'email',
+        'contact'
+    ];
+
     /**
      * Relación uno a muchos
      */
-    public function product()
+    public function products()
     {
-        return $this->hasMany(product::class);
+        return $this->hasMany(products::class, 'company_id', 'id');
     }
 }

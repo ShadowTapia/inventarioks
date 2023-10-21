@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\supplier;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
@@ -65,11 +66,19 @@ class SupplierSave extends Component
             return redirect()->route('suppliers')->with(['success' => $this->msg]);
         } catch (ValidationException $e) {
             DB::rollBack();
+            $message = "Error, " . $e->getMessage() . ".¡Favor de informar al Administrador!";
             throw $e;
+            return redirect()->back()->withError($message);
+        } catch (ModelNotFoundException $e) {
+            DB::rollBack();
+            $message = "Error, " . $e->getMessage() . ".¡Favor de informar al Administrador!";
+            throw $e;
+            return redirect()->back()->withError($message);
         } catch (\Exception $e) {
             DB::rollBack();
-            $this->msg = "Error, ¡favor de intentar mas tarde!";
-            return redirect()->back()->with(['error' => $this->msg]);
+            $message = "Error, " . $e->getMessage() . ".¡Favor de informar al Administrador!";
+            throw $e;
+            return redirect()->back()->withError($message);
         }
     }
 

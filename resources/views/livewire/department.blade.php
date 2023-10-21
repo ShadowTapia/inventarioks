@@ -4,7 +4,7 @@
     </x-slot>
     <x-slot name="content">
         <x-notification/>
-        <x-a-button id="createdepa" title="Crear Departamento" href="{{ route('depa.create') }}" class="p-1 bg-green-800 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-600">
+        <x-a-button id="createdepa" title="Crear Departamento" href="{{ route('depa.create') }}" class="p-1 bg-green-800 hover:bg-green-600 focus:ring-offset-2 focus:ring-2 focus:ring-green-600">
             Crear
         </x-a-button>
         @if ($depas->count())

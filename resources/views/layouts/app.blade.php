@@ -16,6 +16,6 @@
 @stop
 
 @section('js')
-    @livewireScriptConfig
     @vite(['resources/js/app.js'])
+    @livewireScriptConfig
 @stop
