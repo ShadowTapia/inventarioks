@@ -41,5 +41,10 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'comp.create', 'description' => 'Creación de compañias'])->assignRole($role1);
         Permission::create(['name' => 'comp.edit', 'description' => 'Edición de Compañías'])->assignRole($role1);
         Permission::create(['name' => 'comp.destroy', 'description' => 'Eliminación de Compañías'])->assignRole($role1);
+        //Tipo producto
+        Permission::create(['name' => 'productype', 'description' => 'Listado de tipo de productos'])->assignRole($role1);
+        Permission::create(['name' => 'protype.create', 'description' => 'Creación de tipo de productos'])->assignRole($role1);
+        Permission::create(['name' => 'protype.edit', 'description' => 'Edición de tipo de productos'])->assignRole($role1);
+        Permission::create(['name' => 'protype.destroy', 'description' => 'Eliminación de tipos de productos'])->assignRole($role1);
     }
 }

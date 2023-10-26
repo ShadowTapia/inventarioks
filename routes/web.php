@@ -3,9 +3,11 @@
 use App\Livewire\Companies;
 use App\Livewire\Department;
 use App\Livewire\DepaSave;
+use App\Livewire\Productype;
 use App\Livewire\Role;
 use App\Livewire\RoleSave;
 use App\Livewire\SaveCompany;
+use App\Livewire\SaveProductype;
 use App\Livewire\Supplier;
 use App\Livewire\SupplierSave;
 use App\Livewire\UserSave;
@@ -71,4 +73,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified'], 'prefix' => 'dashboa
     Route::get('ccomp', Companies::class)->middleware('can:companies')->name('companies');
     Route::get('create-comp', SaveCompany::class)->middleware('can:companies')->name('comp.create');
     Route::get('update-comp/{id}', SaveCompany::class)->middleware('can:companies')->name('comp.edit');
+    //Productype
+    Route::get('cprodype', Productype::class)->middleware('can:productype')->name('productype');
+    Route::get('protype.create', SaveProductype::class)->middleware('can:productype')->name('prtype.create');
+    Route::get('protype.update/{id}', SaveProductype::class)->middleware('can:productype')->name('prtype.edit');
 });

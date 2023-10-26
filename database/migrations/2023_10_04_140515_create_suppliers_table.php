@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('suppliers', function (Blueprint $table) {
+            $table->comment('Tabla de Proveedores');
             $table->id();
             $table->string('name', 50);
             $table->mediumText('address', 70)->nullable();

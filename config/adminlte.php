@@ -367,6 +367,22 @@ return [
             'can' => 'companies',
         ],
         [
+            'text' => 'Productos',
+            'icon'    => 'fas fa-fw fa-share',
+            'submenu' => [
+                [
+                    'text' => 'Listado',
+                    'url' => '#',
+                ],
+                [
+                    'text' => 'Tipos',
+                    'icon' => 'fas fa-fw fa-tags',
+                    'route' => 'productype',
+                    'can' => 'productype',
+                ],
+            ],
+        ],
+        [
             'text' => 'change_password',
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-lock',

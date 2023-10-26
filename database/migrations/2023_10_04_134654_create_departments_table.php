@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('departments', function (Blueprint $table) {
+            $table->comment('Tabla de departamentos u oficinas disponibles');
             $table->id();
             $table->string('name', 50);
             $table->longText('description')->nullable();
