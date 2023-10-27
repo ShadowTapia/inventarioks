@@ -4,7 +4,7 @@
     </x-slot>
     <x-slot name='content'>
         <x-notification/>
-        <x-a-button id="createProductype" title="Crear Tipo de Producto" href="{{ route('prtype.create') }}" class="p-1 bg-green-800 hover:bg-green-600 focus:ring-offset-2 focus:ring-2 focus:ring-green-600">
+        <x-a-button id="createProductype" title="Crear Tipo de Producto" wire:click="confirmProtypeaddItem" class="p-1 bg-green-800 hover:bg-green-600 focus:ring-offset-2 focus:ring-2 focus:ring-green-600">
             Crear
         </x-a-button>
         @if ($productypes->count()) {{-- Si el arreglo trae registros --}}
@@ -50,8 +50,40 @@
         <div class="card-footer">
             {{ $productypes->links() }}
         </div>
+        {{-- Agregar un nuevo tipo de producto --}}
+        <x-dialog-modal wire:model.live="confirmingProtypeItemAdd">
+            <x-slot name="title">
+                {{ __('Crear Tipo de Producto') }}
+            </x-slot>
+
+            <x-slot name="content">
+                {{-- nombre --}}
+                <div class="colspan-6 sm:col-span-4">
+                    <x-label for="name" value="{{ __('Nombre Tipo de Producto *') }}"></x-label>
+                    <x-bladewind.input id="name" wire:model.lazy="name" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600"/>
+                    <x-input-error for="name" class="mt-2" />
+                </div>
+                {{-- Descripción --}}
+                <div class="colspan-6 sm:col-span-4">
+                    <x-label for="description" value="{{ __('Descripción') }}"></x-label>
+                    <x-bladewind.textarea id="description" wire:model.lazy="description" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600"/>
+                    <x-input-error for="description" class="mt-2"/>
+                </div>
+            </x-slot>
+
+            <x-slot name="footer">
+                <x-danger-button wire:click="$toggle('confirmingProtypeItemAdd',false)" wire:loading.attr="disabled">
+                    {{ __('Cancelar') }}
+                </x-danger-button>
+
+                <x-secondary-button class="ml-3" wire:click="savePrtype()" wire:loading.attr="disabled">
+                    {{ __('Crear') }}
+                </x-secondary-button>
+            </x-slot>
+
+        </x-dialog-modal>
         {{-- Delete Tipo de productos Confirmation Modal --}}
-        <x-dialog-modal wire:model.live="confirmingProtypeDeletion">
+        <x-confirmation-modal maxWidth="md" wire:model.live="confirmingProtypeDeletion">
             <x-slot name="title">
                 {{ __('Borrar Tipo de Producto') }}
             </x-slot>
@@ -69,7 +101,6 @@
                     {{ __('Borrar Tipo de Producto') }}
                 </x-danger-button>
             </x-slot>
-        </x-dialog-modal>
+        </x-confirmation-modal>
     </x-slot>
-
 </x-fondo-card>
