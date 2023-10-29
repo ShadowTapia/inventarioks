@@ -84,6 +84,9 @@ class Department extends Component
         $this->confirmingDepaItemAdd = true;
     }
 
+    /**
+     * Se encarga de guardar los datos de Departamentos
+     */
     public function saveDepa()
     {
         $this->validate();

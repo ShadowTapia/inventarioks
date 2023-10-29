@@ -4,7 +4,7 @@
     </x-slot>
     <x-slot name="content">
         <x-notification />
-        <x-a-button id="createUser" title="Crear Usuario" href="{{ route('user.create') }}" class="p-1 bg-green-800 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-600">Crear</x-a-button>
+        <x-a-button id="createUser" title="Crear Usuario" wire:click="confirmUserAddItem" class="p-1 bg-green-800 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-600">Crear</x-a-button>
         <div>
             <div class="flex mt-1">
                 <div>
@@ -78,8 +78,8 @@
                 {{ $users->links() }}
             </div>
         </div>
-        <!-- Delete User Confirmation Modal -->
-    <x-dialog-modal wire:model.live="confirmingUserDeletion">
+    {{-- Delete User Confirmation Modal --}}
+    <x-confirmation-modal maxWidth="md" wire:model.live="confirmingUserDeletion">
         <x-slot name="title">
             {{ __('Borrar Usuario') }}
         </x-slot>
@@ -97,7 +97,45 @@
                 {{ __('Borrar Usuario') }}
             </x-danger-button>
         </x-slot>
-    </x-dialog-modal>
+    </x-confirmation-modal>
 
+        {{-- Guardar datos Usuario modal --}}
+        <x-dialog-modal id="ModalAddUser" wire:model.live="confirmingUserItemAdd">
+            <x-slot name="title">
+                {{ __('Guardar Usuario') }}
+            </x-slot>
+            <x-slot name="content">
+                {{-- Name --}}
+                <div class="col-span-6 sm:col-span-4">
+                    <x-label for="name" value="{{ __('Nombre') }}" />
+                    <x-input id="name" type="text" class="block w-full mt-1" wire:model.lazy="name" required />
+                    <x-input-error for="name" class="mt-2" />
+                </div>
+
+                {{-- Email --}}
+                <div class="col-span-6 sm:col-span-4">
+                    <x-label for="email" value="{{ __('Email') }}" />
+                    <x-input id="email" type="email" class="block w-full mt-1" wire:model.lazy="email" required/>
+                    <x-input-error for="email" class="mt-2" />
+                </div>
+
+                {{-- Password --}}
+                <div class="col-span-6 sm:col-span-4">
+                    <x-label for="password" value="{{ __('Contraseña') }}" />
+                    <x-input id="password" type="password" class="block w-full mt-1" wire:model.lazy="password" required/>
+                    <x-input-error for="password" class="mt-2" />
+                </div>
+
+            </x-slot>
+            <x-slot name="footer">
+                <x-secondary-button wire:click="saveUser()"  wire:loading.attr="disabled">
+                    {{ __('Guardar') }}
+                </x-secondary-button>
+
+                <x-danger-button class="ml-3" wire:click="$toggle('confirmingUserItemAdd',false)"  wire:loading.attr="disabled">
+                    {{ __('Cancelar') }}
+                </x-danger-button>
+            </x-slot>
+        </x-dialog-modal>
     </x-slot>
 </x-fondo-card>

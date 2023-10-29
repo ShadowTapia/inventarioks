@@ -57,7 +57,7 @@
             {{ $suppliers->links() }}
         </div>
         {{-- Delete Proveedores Confirmation Modal --}}
-        <x-dialog-modal wire:model.live="confirmingSuppDeletion">
+        <x-confirmation-modal maxWidth="md" wire:model.live="confirmingSuppDeletion">
             <x-slot name="title">
                 {{ __('Borrar Proveedor') }}
             </x-slot>
@@ -75,6 +75,6 @@
                     {{ __('Borrar Proveedor') }}
                 </x-danger-button>
             </x-slot>
-    </x-dialog-modal>
+    </x-confirmation-modal>
     </x-slot>
 </x-fondo-card>

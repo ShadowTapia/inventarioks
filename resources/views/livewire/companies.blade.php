@@ -55,7 +55,7 @@
             {{ $companys->links() }}
         </div>
         {{-- Delete Proveedores Confirmation Modal --}}
-        <x-dialog-modal wire:model.live="confirmingCompDeletion">
+        <x-confirmation-modal maxWidth="md" wire:model.live="confirmingCompDeletion">
             <x-slot name="title">
                 {{ __('Borrar Compañía') }}
             </x-slot>
@@ -73,6 +73,6 @@
                     {{ __('Borrar Compañía') }}
                 </x-danger-button>
             </x-slot>
-    </x-dialog-modal>
+    </x-confirmation-modal>
     </x-slot>
 </x-fondo-card>
