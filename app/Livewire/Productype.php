@@ -19,6 +19,7 @@ class Productype extends Component
 
     public $title;
     public $msg = "";
+    public $productype;
 
     public $confirmingProtypeDeletion = false;
     public $confirmingProtypeItemAdd = false;
@@ -69,6 +70,16 @@ class Productype extends Component
         $this->confirmingProtypeItemAdd = true;
     }
 
+    public function confirmProtypeEditItem(ModelsProductype $protype)
+    {
+        $this->productype = $protype;
+        if ($this->productype) {
+            $this->name = $this->productype->name;
+            $this->description = $this->productype->description;
+        }
+        $this->confirmingProtypeItemAdd = true;
+    }
+
     /**
      * Encargado de guardar los tipos de productos
      */
@@ -78,12 +89,20 @@ class Productype extends Component
 
         DB::beginTransaction();
         try {
-            $productype = ModelsProductype::create([
-                'name' => $this->name,
-                'description' => $this->description,
-            ]);
+            if ($this->productype) {
+                $this->productype->update([
+                    'name' => $this->name,
+                    'description' => $this->description,
+                ]);
+                $this->msg = "Tipo producto actualizado correctamente!";
+            } else {
+                $productype = ModelsProductype::create([
+                    'name' => $this->name,
+                    'description' => $this->description,
+                ]);
+                $this->msg = "Tipo de producto creado con exito!!";
+            }
             DB::commit();
-            $this->msg = "Tipo de producto creado con exito!!";
             $this->confirmingProtypeItemAdd = false;
             return redirect()->back()->with(['success' => $this->msg]);
         } catch (ValidationException $e) {

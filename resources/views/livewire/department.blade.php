@@ -4,7 +4,7 @@
     </x-slot>
     <x-slot name="content">
         <x-notification/>
-        <x-a-button id="createdepa" title="Crear Departamento" href="{{ route('depa.create') }}" class="p-1 bg-green-800 hover:bg-green-600 focus:ring-offset-2 focus:ring-2 focus:ring-green-600">
+        <x-a-button id="createdepa" title="Crear Departamento" wire:click="confirmDepaAddItem" class="p-1 bg-green-800 hover:bg-green-600 focus:ring-offset-2 focus:ring-2 focus:ring-green-600">
             Crear
         </x-a-button>
         @if ($depas->count())
@@ -26,7 +26,7 @@
                         <td class="p-3 border">{{ $depa->name }}</td>
                         <td class="p-3 border">{{ $depa->responsible }}</td>
                         <td class="justify-center p-3 border w-60">
-                            <x-a-button id="editdepa" title="Editar Departamento" class="mr-2 p-sm-button bg-violet-800 hover:bg-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-600" href="{{ route('depa.edit',$depa) }}">
+                            <x-a-button id="editdepa" title="Editar Departamento" wire:click="confirmDepaEditItem({{ $depa->id }})" class="mr-2 p-sm-button bg-violet-800 hover:bg-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                 </svg>
@@ -52,8 +52,9 @@
         <div class="card-footer">
             {{ $depas->links() }}
         </div>
-        <!-- Delete User Confirmation Modal -->
-        <x-dialog-modal wire:model.live="confirmingDepaDeletion">
+
+        {{-- Delete User Confirmation Modal --}}
+        <x-confirmation-modal maxWidth="md" wire:model.live="confirmingDepaDeletion">
                 <x-slot name="title">
                     {{ __('Borrar Departamento') }}
                 </x-slot>
@@ -71,6 +72,42 @@
                         {{ __('Borrar Departamento') }}
                     </x-danger-button>
                 </x-slot>
+        </x-confirmation-modal>
+
+        {{-- Guardar datos Modal --}}
+        <x-dialog-modal id="modalAddDepa" wire:model.live="confirmingDepaItemAdd">
+            <x-slot name="title">
+                {{ isset($this->department->id) ? 'Actualizar Departamento' : 'Crear nuevo Departamento' }}
+            </x-slot>
+            <x-slot name="content">
+                {{-- Nombre --}}
+                <div class="colspan-6 sm:col-span-4">
+                    <x-label for="name" value="{{ __('Nombre Departamento *') }}"></x-label>
+                    <x-bladewind.input id="name" wire:model.lazy="name" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600"/>
+                    <x-input-error for="name" class="mt-2" />
+                </div>
+                {{-- Descripción --}}
+                <div class="colspan-6 sm:col-span-4">
+                    <x-label for="description" value="{{ __('Descripción') }}"/>
+                    <x-bladewind.textarea id="description" wire:model.lazy="description" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" />
+                    <x-input-error for="description" class="mt-2" />
+                </div>
+                {{-- Responsable --}}
+                <div class="colspan-6 sm:col-span-4">
+                    <x-label for="responsible" value="{{ __('Responsable') }}"/>
+                    <x-bladewind.input id="responsible" wire:model.lazy="responsible" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600"/>
+                    <x-input-error for="responsible" class="mt-2" />
+                </div>
+            </x-slot>
+            <x-slot name="footer">
+                <x-secondary-button  wire:click="saveDepa()"  wire:loading.attr="disabled">
+                    {{ __('Guardar') }}
+                </x-secondary-button>
+
+                <x-danger-button class="ml-3" wire:click="$toggle('confirmingDepaItemAdd',false)"  wire:loading.attr="disabled">
+                    {{ __('Cancelar') }}
+                </x-danger-button>
+            </x-slot>
         </x-dialog-modal>
     </x-slot>
 </x-fondo-card>

@@ -24,7 +24,7 @@
                             <td class="p-3 border">{{ $types->description }}</td>
                             <td class="p-3 border">{{ $types->created_at }}</td>
                             <td class="justify-center p-3 border w-60">
-                                <x-a-button id="editsupp" title="Editar Proveedor" href="{{ route('prtype.edit',$types) }}" class="mr-2 p-sm-button bg-violet-800 hover:bg-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-600">
+                                <x-a-button id="editsupp" title="Editar Proveedor" wire:click="confirmProtypeEditItem({{ $types->id }})" class="mr-2 p-sm-button bg-violet-800 hover:bg-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                     </svg>
@@ -53,7 +53,7 @@
         {{-- Agregar un nuevo tipo de producto --}}
         <x-dialog-modal wire:model.live="confirmingProtypeItemAdd">
             <x-slot name="title">
-                {{ __('Crear Tipo de Producto') }}
+                {{ isset($this->productype->id) ? 'Actualizar Tipo Producto' : 'Crear Tipo Producto' }}
             </x-slot>
 
             <x-slot name="content">
@@ -72,15 +72,14 @@
             </x-slot>
 
             <x-slot name="footer">
-                <x-danger-button wire:click="$toggle('confirmingProtypeItemAdd',false)" wire:loading.attr="disabled">
+                <x-secondary-button  wire:click="savePrtype()" wire:loading.attr="disabled">
+                    {{ __('Guardar') }}
+                </x-secondary-button>
+
+                <x-danger-button class="ml-3" wire:click="$toggle('confirmingProtypeItemAdd',false)" wire:loading.attr="disabled">
                     {{ __('Cancelar') }}
                 </x-danger-button>
-
-                <x-secondary-button class="ml-3" wire:click="savePrtype()" wire:loading.attr="disabled">
-                    {{ __('Crear') }}
-                </x-secondary-button>
             </x-slot>
-
         </x-dialog-modal>
         {{-- Delete Tipo de productos Confirmation Modal --}}
         <x-confirmation-modal maxWidth="md" wire:model.live="confirmingProtypeDeletion">
