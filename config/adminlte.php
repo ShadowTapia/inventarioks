@@ -372,7 +372,9 @@ return [
             'submenu' => [
                 [
                     'text' => 'Listado',
-                    'url' => '#',
+                    'icon' => 'fas fa-fw fa-cubes',
+                    'route' => 'productslist',
+                    'can' => 'productslist',
                 ],
                 [
                     'text' => 'Tipos',

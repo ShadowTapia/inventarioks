@@ -23,7 +23,8 @@ class SupplierSave extends Component
 
     protected $rules = [
         'name' => 'required|min:3',
-        'email' => 'email',
+        'email' => 'email|nullable',
+        'contact' => 'string|nullable',
     ];
 
     public function mount($id = null)

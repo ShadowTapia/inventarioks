@@ -46,5 +46,8 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'protype.create', 'description' => 'Creación de tipo de productos'])->assignRole($role1);
         Permission::create(['name' => 'protype.edit', 'description' => 'Edición de tipo de productos'])->assignRole($role1);
         Permission::create(['name' => 'protype.destroy', 'description' => 'Eliminación de tipos de productos'])->assignRole($role1);
+        //Productos
+        Permission::create(['name' => 'productslist', 'description' => 'Listado de Productos'])->assignRole($role1);
+        Permission::create(['name' => 'pro.create', 'description' => 'Creación de Productos'])->assignRole($role1);
     }
 }

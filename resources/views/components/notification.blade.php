@@ -1,5 +1,5 @@
 @if (Session::has('success'))
-<div x-data="{ open: true }">
+<div x-data="{ open: true }" x-init="setTimeout(()=>open=false,3000)">
     <div x-show="open" @click.away="open = false"
             x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="opacity-0 scale-90"
@@ -31,7 +31,7 @@
 </div>
 @endif
 @if (Session::has('error'))
-<div x-data="{ open: true }">
+<div x-data="{ open: true }" x-init="setTimeout(()=>open=false,3000)">
     <div x-show="open"
         x-transition:enter="transition ease-out duration-300"
         x-transition:enter-start="opacity-0 scale-90"

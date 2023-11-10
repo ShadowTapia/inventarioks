@@ -24,7 +24,6 @@ class ProductsFactory extends Factory
         return [
             'name' => $name,
             'description' => $this->faker->text(60),
-            'url' => 'products/' . $this->faker->image('public/storage/products', 640, 480, null, false),
             'users_id' => User::all()->random()->id,
             'productype_id' => productype::all()->random()->id,
             'supplier_id' => supplier::all()->random()->id,
