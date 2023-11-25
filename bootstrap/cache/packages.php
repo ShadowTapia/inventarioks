@@ -77,6 +77,13 @@
       'Livewire' => 'Livewire\\Livewire',
     ),
   ),
+  'mkocansey/bladewind' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Mkocansey\\Bladewind\\BladewindServiceProvider',
+    ),
+  ),
   'nesbot/carbon' => 
   array (
     'providers' => 

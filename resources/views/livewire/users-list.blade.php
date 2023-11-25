@@ -4,7 +4,7 @@
     </x-slot>
     <x-slot name="content">
         <x-notification />
-        <x-a-button href="{{ route('user.create') }}" class="p-1 bg-green-800 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-600">Crear</x-a-button>
+        <x-a-button id="createUser" title="Crear Usuario" wire:click="confirmUserAddItem" class="p-1 bg-green-800 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-600">Crear</x-a-button>
         <div>
             <div class="flex mt-1">
                 <div>
@@ -45,7 +45,7 @@
                             <td class="p-3 border">{{ $u->name }}</td>
                             <td class="p-3 border">{{ $u->email }}</td>
                             <td class="flex justify-center p-3 border">
-                                <x-a-button class="mr-2 p-sm-button bg-violet-800 hover:bg-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-600" href="{{ route('user.edit',$u) }}">
+                                <x-a-button id="editUser" title="Editar Usuario" class="mr-2 p-sm-button bg-violet-800 hover:bg-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-600" href="{{ route('user.edit',$u) }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                     </svg>
@@ -78,8 +78,8 @@
                 {{ $users->links() }}
             </div>
         </div>
-        <!-- Delete User Confirmation Modal -->
-    <x-dialog-modal wire:model.live="confirmingUserDeletion">
+    {{-- Delete User Confirmation Modal --}}
+    <x-confirmation-modal maxWidth="md" wire:model.live="confirmingUserDeletion">
         <x-slot name="title">
             {{ __('Borrar Usuario') }}
         </x-slot>
@@ -97,7 +97,45 @@
                 {{ __('Borrar Usuario') }}
             </x-danger-button>
         </x-slot>
-    </x-dialog-modal>
+    </x-confirmation-modal>
 
+        {{-- Guardar datos Usuario modal --}}
+        <x-dialog-modal id="ModalAddUser" wire:model.live="confirmingUserItemAdd">
+            <x-slot name="title">
+                {{ __('Guardar Usuario') }}
+            </x-slot>
+            <x-slot name="content">
+                {{-- Name --}}
+                <div class="col-span-6 sm:col-span-4">
+                    <x-label for="name" value="{{ __('Nombre') }}" />
+                    <x-input id="name" type="text" class="block w-full mt-1" wire:model.lazy="name" required />
+                    <x-input-error for="name" class="mt-2" />
+                </div>
+
+                {{-- Email --}}
+                <div class="col-span-6 sm:col-span-4">
+                    <x-label for="email" value="{{ __('Email') }}" />
+                    <x-input id="email" type="email" class="block w-full mt-1" wire:model.lazy="email" required/>
+                    <x-input-error for="email" class="mt-2" />
+                </div>
+
+                {{-- Password --}}
+                <div class="col-span-6 sm:col-span-4">
+                    <x-label for="password" value="{{ __('Contraseña') }}" />
+                    <x-input id="password" type="password" class="block w-full mt-1" wire:model.lazy="password" required/>
+                    <x-input-error for="password" class="mt-2" />
+                </div>
+
+            </x-slot>
+            <x-slot name="footer">
+                <x-secondary-button wire:click="saveUser()"  wire:loading.attr="disabled">
+                    {{ __('Guardar') }}
+                </x-secondary-button>
+
+                <x-danger-button class="ml-3" wire:click="$toggle('confirmingUserItemAdd',false)"  wire:loading.attr="disabled">
+                    {{ __('Cancelar') }}
+                </x-danger-button>
+            </x-slot>
+        </x-dialog-modal>
     </x-slot>
 </x-fondo-card>

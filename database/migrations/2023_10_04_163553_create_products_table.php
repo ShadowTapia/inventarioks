@@ -12,13 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
+            $table->comment('Tabla de Productos');
             $table->id();
             $table->string('name', 50);
             $table->longText('description', 100)->nullable();
             $table->string('modelo', 50)->nullable();
-            $table->string('url')->nullable();
-            $table->unsignedBigInteger('imageable_id')->nullable();
-            $table->string('imageable_type')->nullable();
 
             $table->foreignId('users_id')
                 ->constrained()

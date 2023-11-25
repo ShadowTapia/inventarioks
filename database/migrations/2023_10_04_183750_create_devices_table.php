@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('devices', function (Blueprint $table) {
+            $table->comment('Tabla de dispositivos');
             $table->id();
             $table->string('numserie');
             $table->date('fechacompra')->nullable();
@@ -23,7 +24,7 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('restrict');
 
-            $table->foreignId('departments_id')
+            $table->foreignId('department_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('restrict');

@@ -347,12 +347,55 @@ return [
             'icon' => 'fas fa-user-cog fa-fw',
             'can' => 'roles',
         ],
+        ['header' => 'Sistema Inventario'],
         [
+            'text' => 'Departamentos',
+            'route' => 'departamentos',
+            'icon' => 'fas fa-door-open',
+            'can' => 'departamentos',
+        ],
+        [
+            'text' => 'Proveedores',
+            'route' => 'suppliers',
+            'icon' => 'fas fa-shopping-bag',
+            'can' => 'suppliers',
+        ],
+        [
+            'text' => 'Compañias',
+            'route' => 'companies',
+            'icon' => 'fas fa-building',
+            'can' => 'companies',
+        ],
+        [
+            'text' => 'Productos',
+            'icon'    => 'fas fa-fw fa-share',
+            'submenu' => [
+                [
+                    'text' => 'Listado',
+                    'icon' => 'fas fa-fw fa-cubes',
+                    'route' => 'productslist',
+                    'can' => 'productslist',
+                ],
+                [
+                    'text' => 'Tipos',
+                    'icon' => 'fas fa-fw fa-tags',
+                    'route' => 'productype',
+                    'can' => 'productype',
+                ],
+                [
+                    'text' => 'Dispositivos',
+                    'icon' => 'fas fa-fw fa-upload',
+                    'route' => 'devicelist',
+                    'can' => 'devicelist',
+                ],
+            ],
+        ],
+        /* [
             'text' => 'change_password',
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-lock',
-        ],
-        [
+        ], */
+        /* [
             'text'    => 'multilevel',
             'icon'    => 'fas fa-fw fa-share',
             'submenu' => [
@@ -389,8 +432,8 @@ return [
                     'url'  => '#',
                 ],
             ],
-        ],
-        ['header' => 'labels'],
+        ], */
+        /* ['header' => 'labels'],
         [
             'text'       => 'important',
             'icon_color' => 'red',
@@ -405,7 +448,7 @@ return [
             'text'       => 'information',
             'icon_color' => 'cyan',
             'url'        => '#',
-        ],
+        ], */
     ],
 
     /*

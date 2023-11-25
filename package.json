@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "@alpinejs/focus": "^3.13.0",
-        "alpinejs": "^3.13.0"
+        "alpinejs": "^3.13.0",
+        "pikaday": "^1.8.2"
     }
 }

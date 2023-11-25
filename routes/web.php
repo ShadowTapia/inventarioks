@@ -1,9 +1,22 @@
 <?php
 
+use App\Livewire\Companies;
+use App\Livewire\Department;
+use App\Livewire\DepaSave;
+use App\Livewire\Devicelist;
+use App\Livewire\ProductsList;
+use App\Livewire\Productype;
 use App\Livewire\Role;
 use App\Livewire\RoleSave;
+use App\Livewire\SaveCompany;
+use App\Livewire\SaveDevice;
+use App\Livewire\SaveProduct;
+use App\Livewire\SaveProductype;
+use App\Livewire\Supplier;
+use App\Livewire\SupplierSave;
 use App\Livewire\UserSave;
 use App\Livewire\UsersList;
+use App\Models\department as ModelsDepartment;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,4 +65,26 @@ Route::group(['middleware' => ['auth:sanctum', 'verified'], 'prefix' => 'dashboa
     Route::get('croles', Role::class)->middleware('can:roles')->name('roles');
     Route::get('create-rol', RoleSave::class)->middleware('can:roles')->name('rol.create');
     Route::get('update-rol/{id}', RoleSave::class)->middleware('can:roles')->name('rol.edit');
+    //Departamentos
+    Route::get('cdepas', Department::class)->middleware('can:departamentos')->name('departamentos');
+    Route::get('create-depa', DepaSave::class)->middleware('can:departamentos')->name('depa.create');
+    Route::get('update-depa/{id}', DepaSave::class)->middleware('can:departamentos')->name('depa.edit');
+    //Proveedores
+    Route::get('csupp', Supplier::class)->middleware('can:suppliers')->name('suppliers');
+    Route::get('create-supp', SupplierSave::class)->middleware('can:suppliers')->name('supp.create');
+    Route::get('update-supp/{id}', SupplierSave::class)->middleware('can:suppliers')->name('supp.edit');
+    //Companies
+    Route::get('ccomp', Companies::class)->middleware('can:companies')->name('companies');
+    Route::get('create-comp', SaveCompany::class)->middleware('can:companies')->name('comp.create');
+    Route::get('update-comp/{id}', SaveCompany::class)->middleware('can:companies')->name('comp.edit');
+    //Productype
+    Route::get('cprodype', Productype::class)->middleware('can:productype')->name('productype');
+    Route::get('protype.create', SaveProductype::class)->middleware('can:productype')->name('prtype.create');
+    Route::get('protype.update/{id}', SaveProductype::class)->middleware('can:productype')->name('prtype.edit');
+    //Productos
+    Route::get('cproducts', ProductsList::class)->middleware('can:productslist')->name('productslist');
+    Route::get('create.prduct', SaveProduct::class)->middleware('can:productslist')->name('pro.create');
+    //Devices
+    Route::get('cdevices', Devicelist::class)->middleware('can:devicelist')->name('devicelist');
+    Route::get('create.device/{id}', SaveDevice::class)->middleware('can:devicelist')->name('devi.create');
 });

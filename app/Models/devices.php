@@ -9,13 +9,22 @@ class devices extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'numserie',
+        'fechacompra',
+        'comentarios',
+        'estado',
+        'products_id',
+        'department_id',
+    ];
+
     /**
      * Relación uno es a muchos inversa
      * Tabla Product
      */
     public function product()
     {
-        return $this->belongsTo(product::class);
+        return $this->belongsTo(product::class, 'products_id');
     }
 
     /**

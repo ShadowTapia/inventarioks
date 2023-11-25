@@ -80,8 +80,8 @@ class User extends Authenticatable
      * Relación uno es a muchos
      * Tabla Product
      */
-    public function product()
+    public function products()
     {
-        return $this->hasMany(product::class);
+        return $this->hasMany(products::class, 'users_id', 'id');
     }
 }

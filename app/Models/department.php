@@ -9,6 +9,12 @@ class department extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'description',
+        'responsible',
+    ];
+
     /**
      * Relación uno es a muchos
      * Tabla Devices

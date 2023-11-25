@@ -8,6 +8,11 @@
     </x-slot>
 
     <x-slot name="content">
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
         <form wire:submit.prevent="submit">
             <!-- Name -->
             <div class="col-span-6 sm:col-span-4">

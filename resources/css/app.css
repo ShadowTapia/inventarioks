@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 [x-cloak] {
     display: none;
 }
@@ -17,3 +18,5 @@
 .p-filter-button {
     @apply px-0 py-0 !important;
 }
+
+

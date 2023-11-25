@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('productypes', function (Blueprint $table) {
+            $table->comment('Tipos de productos, aquí se establecen si son Impresoras, pantallas, pc, etc.');
             $table->id();
             $table->string('name', 50);
             $table->longText('description', 80)->nullable();

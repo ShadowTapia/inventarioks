@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\department;
-use App\Models\product;
+use App\Models\products;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,8 +22,8 @@ class DevicesFactory extends Factory
         return [
             'numserie' => $numserie,
             'estado' => $this->faker->randomElement([1, 2]),
-            'products_id' => product::all()->random()->id,
-            'departments_id' => department::all()->random()->id,
+            'products_id' => products::all()->random()->id,
+            'department_id' => department::all()->random()->id,
         ];
     }
 }

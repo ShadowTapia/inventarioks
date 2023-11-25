@@ -6,6 +6,11 @@
         {{ __('Se encarga de ingresar un nuevo Rol de Usuario.') }}
     </x-slot>
     <x-slot name="content">
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
         <form wire:submit.prevent="submit">
             <div class="colspan-6 sm:col-span-4">
                 <x-label for="name" value="{{ __('Nombre') }}"/>
