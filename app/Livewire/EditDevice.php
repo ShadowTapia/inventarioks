@@ -4,14 +4,14 @@ namespace App\Livewire;
 
 use App\Models\department;
 use App\Models\devices;
-use App\Models\product;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-class SaveDevice extends Component
+
+class EditDevice extends Component
 {
     public $devices;
     public $numserie;
@@ -20,11 +20,9 @@ class SaveDevice extends Component
     public $estado;
     public $department_id;
     public $products_id;
-    public $product;
 
     public $title;
-    public $msg = "";
-
+    public $msg = '';
 
     protected $rules = [
         'numserie' => 'required|min:3',
@@ -33,20 +31,18 @@ class SaveDevice extends Component
         'estado' => 'required|in:1,2',
     ];
 
-
-    public function mount($id)
+    public function mount($id = null)
     {
-        $this->product = product::find($id);
-        $this->products_id = $this->product->id;
+        $this->init($id);
     }
 
     #[Layout('layouts.app')]
     public function render()
     {
         $departments = department::all();
-        return view('livewire.save-device', [
+        return view('livewire.edit-device', [
             'title' => $this->title,
-            'departments' => $departments
+            'departments' => $departments,
         ]);
     }
 
@@ -56,17 +52,18 @@ class SaveDevice extends Component
 
         DB::beginTransaction();
         try {
-            $devices = devices::create([
-                'numserie' => $this->numserie,
-                'fechacompra' => date('y-m-d', strtotime($this->fechacompra)),
-                'comentarios' => $this->comentarios,
-                'estado' => $this->estado,
-                'department_id' => $this->department_id,
-                'products_id' => $this->products_id,
-            ]);
-            $this->msg = "Dispositivo creado con exito.!";
-            DB::commit();
-            return redirect()->route('productslist')->with(['success' => $this->msg]);
+            if ($this->devices) {
+                $this->devices->update([
+                    'numserie' => $this->numserie,
+                    'fechacompra' => date('y-m-d', strtotime($this->fechacompra)),
+                    'comentarios' => $this->comentarios,
+                    'estado' => $this->estado,
+                    'department_id' => $this->department_id,
+                ]);
+                $this->msg = "Dispositivo editado con exito.!";
+                DB::commit();
+                return redirect()->route('devicelist')->with(['success' => $this->msg]);
+            }
         } catch (ValidationException $e) {
             DB::rollBack();
             $message = "Error, " . $e->getMessage() . ".¡Favor de informar al Administrador!";
@@ -82,6 +79,25 @@ class SaveDevice extends Component
             $message = "Error, " . $e->getMessage() . ".¡Favor de informar al Administrador!";
             throw $e;
             return redirect()->back()->withError($message);
+        }
+    }
+
+    public function init($id)
+    {
+        $devices = null;
+
+        if ($id) {
+            $this->title = "Actualizar Dispositivo";
+            $devices = devices::findOrFail($id);
+        }
+
+        $this->devices = $devices;
+        if ($this->devices) {
+            $this->numserie = $this->devices->numserie;
+            $this->fechacompra = $this->devices->fechacompra;
+            $this->comentarios = $this->devices->comentarios;
+            $this->estado = $this->devices->estado;
+            $this->department_id = $this->devices->department_id;
         }
     }
 }

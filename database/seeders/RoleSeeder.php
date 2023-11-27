@@ -52,5 +52,6 @@ class RoleSeeder extends Seeder
         //Devices
         Permission::create(['name' => 'devicelist', 'description' => 'Listado de Dispositivos'])->assignRole($role1);
         Permission::create(['name' => 'devi.create', 'description' => 'Creación de Dispositivos'])->assignRole($role1);
+        Permission::create(['name' => 'devi.edit', 'description' => 'Edición de Dispositivos'])->assignRole($role1);
     }
 }

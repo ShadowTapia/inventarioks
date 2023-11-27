@@ -4,6 +4,7 @@ use App\Livewire\Companies;
 use App\Livewire\Department;
 use App\Livewire\DepaSave;
 use App\Livewire\Devicelist;
+use App\Livewire\EditDevice;
 use App\Livewire\ProductsList;
 use App\Livewire\Productype;
 use App\Livewire\Role;
@@ -87,4 +88,5 @@ Route::group(['middleware' => ['auth:sanctum', 'verified'], 'prefix' => 'dashboa
     //Devices
     Route::get('cdevices', Devicelist::class)->middleware('can:devicelist')->name('devicelist');
     Route::get('create.device/{id}', SaveDevice::class)->middleware('can:devicelist')->name('devi.create');
+    Route::get('edit.device/{id}', EditDevice::class)->middleware('can:devicelist')->name('devi.edit');
 });
