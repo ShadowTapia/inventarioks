@@ -297,8 +297,9 @@ return [
             'topnav_right' => true,
         ],
         [
-            'text' => 'Link 1',
-            'url' => '#',
+            'text' => 'Productos',
+            'route' => 'productslist',
+            'can' => 'productslist',
             'topnav' => true,
         ],
         [
