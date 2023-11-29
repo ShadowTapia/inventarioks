@@ -14,6 +14,7 @@ class Department extends Component
 {
     use WithPagination;
 
+    //Campos del formulario
     public $name;
     public $description;
     public $responsible;
@@ -23,6 +24,7 @@ class Department extends Component
 
     public $confirmingDepaDeletion = false;
     public $confirmingDepaItemAdd = false;
+
     public $department;
 
     protected $paginationTheme = "bootstrap"; //Importante para tener un estilo distinto para la paginación

@@ -22,7 +22,7 @@
                         <tr>
                             <td class="p-3 border">{{ $types->name }}</td>
                             <td class="p-3 border">{{ $types->description }}</td>
-                            <td class="p-3 border">{{ $types->created_at }}</td>
+                            <td class="p-3 border">{{ \Carbon\Carbon::parse($types->created_at)->format('d/m/Y') }}</td>
                             <td class="justify-center p-3 border w-60">
                                 <x-a-button id="editsupp" title="Editar Proveedor" wire:click="confirmProtypeEditItem({{ $types->id }})" class="mr-2 p-sm-button bg-violet-800 hover:bg-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">

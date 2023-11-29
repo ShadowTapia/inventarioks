@@ -1,4 +1,4 @@
-@props([
+@props([ 
     // to create a radio button group, specify the same name
     // for all the radio buttons in the group
     'name' => 'radio',
@@ -8,7 +8,7 @@
     'labelCss' => 'mr-6',
     'color' => 'blue',
     'checked' => false,
-    'class' => 'bg-gray-900',
+    'class' => '',
     'disabled' => false,
 ])
 @php
