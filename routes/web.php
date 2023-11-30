@@ -4,20 +4,17 @@ use App\Livewire\Companies;
 use App\Livewire\Department;
 use App\Livewire\DepaSave;
 use App\Livewire\Devicelist;
-use App\Livewire\EditDevice;
 use App\Livewire\ProductsList;
 use App\Livewire\Productype;
 use App\Livewire\Role;
 use App\Livewire\RoleSave;
 use App\Livewire\SaveCompany;
-use App\Livewire\SaveDevice;
 use App\Livewire\SaveProduct;
 use App\Livewire\SaveProductype;
 use App\Livewire\Supplier;
 use App\Livewire\SupplierSave;
 use App\Livewire\UserSave;
 use App\Livewire\UsersList;
-use App\Models\department as ModelsDepartment;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -87,6 +84,6 @@ Route::group(['middleware' => ['auth:sanctum', 'verified'], 'prefix' => 'dashboa
     Route::get('create.prduct', SaveProduct::class)->middleware('can:productslist')->name('pro.create');
     //Devices
     Route::get('cdevices', Devicelist::class)->middleware('can:devicelist')->name('devicelist');
-    Route::get('create.device/{id}', SaveDevice::class)->middleware('can:devicelist')->name('devi.create');
-    Route::get('edit.device/{id}', EditDevice::class)->middleware('can:devicelist')->name('devi.edit');
+    Route::get('create.device/{id}', ProductsList::class)->middleware('can:devicelist')->name('devi.create');
+    Route::get('edit.device/{id}', Devicelist::class)->middleware('can:devicelist')->name('devi.edit');
 });
