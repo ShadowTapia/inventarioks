@@ -1,6 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PrintCodebarAll;
+use App\Http\Controllers\PrintCodebaru;
 use App\Livewire\Companies;
+use App\Http\Controllers\PrintPDF;
 use App\Livewire\Department;
 use App\Livewire\DepaSave;
 use App\Livewire\Devicelist;
@@ -15,6 +20,7 @@ use App\Livewire\Supplier;
 use App\Livewire\SupplierSave;
 use App\Livewire\UserSave;
 use App\Livewire\UsersList;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,7 +38,7 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => ['auth:sanctum', 'verified'], 'prefix' => 'dashboard'], function () {
     Route::get('/', function () {
@@ -82,8 +88,11 @@ Route::group(['middleware' => ['auth:sanctum', 'verified'], 'prefix' => 'dashboa
     //Productos
     Route::get('cproducts', ProductsList::class)->middleware('can:productslist')->name('productslist');
     Route::get('create.prduct', SaveProduct::class)->middleware('can:productslist')->name('pro.create');
+    Route::get('print.prduct', [PrintPDF::class, 'printPDF'])->middleware('can:productslist')->name('print.product');
     //Devices
     Route::get('cdevices', Devicelist::class)->middleware('can:devicelist')->name('devicelist');
     Route::get('create.device/{id}', ProductsList::class)->middleware('can:devicelist')->name('devi.create');
     Route::get('edit.device/{id}', Devicelist::class)->middleware('can:devicelist')->name('devi.edit');
+    Route::get('print.barra/{id}', [PrintCodebaru::class, 'printCodeBar'])->middleware('can:devicelist')->name('print.barra');
+    Route::get('print.barraAll', [PrintCodebarAll::class, 'printCodeAll'])->middleware('can:devicelist')->name('print.barraAll');
 });

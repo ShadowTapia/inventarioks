@@ -49,9 +49,13 @@ class RoleSeeder extends Seeder
         //Productos
         Permission::create(['name' => 'productslist', 'description' => 'Listado de Productos'])->assignRole($role1);
         Permission::create(['name' => 'pro.create', 'description' => 'Creación de Productos'])->assignRole($role1);
+        Permission::create(['name' => 'print.product', 'description' => 'Impresión de Productos'])->assignRole($role1);
         //Devices
         Permission::create(['name' => 'devicelist', 'description' => 'Listado de Dispositivos'])->assignRole($role1);
         Permission::create(['name' => 'devi.create', 'description' => 'Creación de Dispositivos'])->assignRole($role1);
         Permission::create(['name' => 'devi.edit', 'description' => 'Edición de Dispositivos'])->assignRole($role1);
+        //Código de barra
+        Permission::create(['name' => 'print.barra', 'description' => 'Impresión de Cod. de Barra por dispositivo'])->assignRole($role1);
+        Permission::create(['name' => 'print.barraAll', 'description' => 'Impresión de todos los Cod. de Barra'])->assignRole($role1);
     }
 }
