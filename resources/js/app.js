@@ -1,6 +1,15 @@
 import './bootstrap';
 
-
+var myFile = "";
+$('#file').on('change', function () {
+    myFile = $(this).val();
+    var ext = myFile.split('.').pop();
+    if (ext == "jpg" || ext == "jpe" || ext == "png") {
+        alert(ext);
+    } else {
+        alert(ext);
+    }
+});
 
 //Cambiar imagen
 // document.getElementById("file").addEventListener('change', cambiarImagen);

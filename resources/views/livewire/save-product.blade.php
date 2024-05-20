@@ -38,7 +38,7 @@
                 </div>
                 <div class="col">
                     <x-label for="file" value="{{ __('Foto') }}"></x-label>
-                    <input id="file" type="file" wire:model="file"/>
+                    <input id="file" type="file" wire:model="file" accept="image/*"/>
                     @error('file') <span class="error">{{ $message }}</span> @enderror
                     <p>Se deben subir archivos fotograficos de tipo png o jpg y de un máximo de 800Kb.</p>
                 </div>
