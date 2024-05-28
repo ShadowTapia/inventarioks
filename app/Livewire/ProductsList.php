@@ -23,6 +23,7 @@ class ProductsList extends Component
     public $estado;
     public $department_id;
     public $products_id;
+    public $numSerial;
 
     public $title;
     public $msg = "";
@@ -32,11 +33,16 @@ class ProductsList extends Component
 
     protected $paginationTheme = "bootstrap";
 
+    /**
+     * Definimos las reglas del modelo
+     */
     protected $rules = [
-        'numserie' => 'required|min:3',
+        'numserie' => 'required|unique:devices|min:2|max:255|regex:/^([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
         'fechacompra' => 'date|nullable',
-        'comentarios' => 'string|nullable',
-        'estado' => 'required|in:1,2',
+        'comentarios' => 'string|nullable|regex:/^([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
+        'estado' => 'required|min:1|max:2|in:1,2',
+        'products_id' => 'required|min:1|max:99999999',
+        'department_id' => 'required|min:1|max:99999999',
     ];
 
     public function mount()

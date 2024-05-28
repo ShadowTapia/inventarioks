@@ -290,16 +290,22 @@ return [
     */
 
     'menu' => [
-        // Navbar items:
+        // Acceso directo Navbar items:
         [
             'type'         => 'navbar-search',
             'text'         => 'Busqueda',
             'topnav_right' => true,
         ],
         [
-            'text' => 'Productos',
+            'text' => 'L. Productos',
             'route' => 'productslist',
             'can' => 'productslist',
+            'topnav' => true,
+        ],
+        [
+            'text' => 'L. Dispositivos',
+            'route' => 'devicelist',
+            'can' => 'devicelist',
             'topnav' => true,
         ],
         [

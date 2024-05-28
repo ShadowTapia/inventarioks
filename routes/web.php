@@ -93,6 +93,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified'], 'prefix' => 'dashboa
     Route::get('cdevices', Devicelist::class)->middleware('can:devicelist')->name('devicelist');
     Route::get('create.device/{id}', ProductsList::class)->middleware('can:devicelist')->name('devi.create');
     Route::get('edit.device/{id}', Devicelist::class)->middleware('can:devicelist')->name('devi.edit');
+    Route::get('show.device/{id}', ProductsList::class)->middleware('can:devicelist')->name('devi.show');
     Route::get('print.barra/{id}', [PrintCodebaru::class, 'printCodeBar'])->middleware('can:devicelist')->name('print.barra');
     Route::get('print.barraAll', [PrintCodebarAll::class, 'printCodeAll'])->middleware('can:devicelist')->name('print.barraAll');
 });

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('devices', function (Blueprint $table) {
             $table->comment('Tabla de dispositivos');
             $table->id();
-            $table->string('numserie');
+            $table->string('numserie')->unique();
             $table->date('fechacompra')->nullable();
             $table->longText('comentarios', 100)->nullable();
             $table->enum('estado', [1, 2])->default(1); //1 Activo 2 Inactivo
