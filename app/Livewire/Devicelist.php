@@ -33,10 +33,10 @@ class Devicelist extends Component
     protected $paginationTheme = "bootstrap";
 
     protected $rules = [
-        'numserie' => 'required|min:3',
+        'numserie' => 'required|min:2|max:255|regex:/^([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
         'fechacompra' => 'date|nullable',
-        'comentarios' => 'string|nullable',
-        'estado' => 'required|in:1,2',
+        'comentarios' => 'string|nullable|regex:/^([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
+        'estado' => 'required|min:1|max:2|in:1,2',
     ];
 
     protected $queryString = ['numserie'];
@@ -60,7 +60,7 @@ class Devicelist extends Component
             $devices->where('numserie', 'like', '%' . $this->numserie . '%');
         }
 
-        $devices = $devices->paginate(10);
+        $devices = $devices->paginate(50);
         $departments = department::all();
 
         return view('livewire.devicelist', [

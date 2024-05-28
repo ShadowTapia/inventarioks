@@ -12,6 +12,8 @@ class PrintCodebaru extends Controller
     public $numserie;
     public $producto;
     public $modelo;
+    public $comentarios;
+    public $departamento;
 
     public function index()
     {
@@ -35,6 +37,8 @@ class PrintCodebaru extends Controller
             $this->numserie = $this->device->numserie;
             $this->producto = $this->device->product->name;
             $this->modelo = $this->device->product->modelo;
+            $this->comentarios = $this->device->comentarios;
+            $this->departamento = $this->device->department->name;
         }
 
         $generator = new BarcodeGeneratorPNG();
@@ -44,6 +48,8 @@ class PrintCodebaru extends Controller
             'producto' => $this->producto,
             'barcode' => $barcode,
             'modelo' => $this->modelo,
+            'comentarios' => $this->comentarios,
+            'departamento' => $this->departamento,
         ];
 
         $pdf = App::make('dompdf.wrapper');

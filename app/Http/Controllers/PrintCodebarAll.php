@@ -35,7 +35,9 @@ class PrintCodebarAll extends Controller
                 $barcode = base64_encode($generator->getBarcode($devi->numserie, $generator::TYPE_CODE_128));
                 $devices[$conta][0] = $devi->product->name;
                 $devices[$conta][1] = $devi->product->modelo;
-                $devices[$conta][2] = $barcode;
+                $devices[$conta][2] = $devi->comentarios;
+                $devices[$conta][3] = $devi->department->name;
+                $devices[$conta][4] = $barcode;
             }
         }
 

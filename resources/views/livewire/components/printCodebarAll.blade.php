@@ -28,9 +28,9 @@
                                             <div class="left-8">
                                                 <img id="logoks" src="{{ asset('images/kscodebar.png') }}" alt="">
                                             </div>
-                                            <div>{{ $value[0] }}</div>
-                                            <div>{{ $value[1] }}</div>
-                                            <div><img src="data:image/png;base64, {{ $value[2] }}" alt="" class="w-3 py-0"></div>
+                                            <div>{{ $value[0] }} {{ $value[1] }}</div>
+                                            <div>{{ $value[2] }} {{ $value[3] }}</div>
+                                            <div><img src="data:image/png;base64, {{ $value[4] }}" alt="" class="w-3 py-0"></div>
                                         </div>
 
                                     </td>

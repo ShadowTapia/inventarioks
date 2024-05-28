@@ -31,8 +31,8 @@ class Department extends Component
 
     protected $rules = [
         'name' => 'required|min:3|string',
-        'description' => 'string|nullable',
-        'responsible' => 'regex:/^[\pL\s\-]+$/u|string|nullable',
+        'description' => 'string|nullable|regex:/^([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
+        'responsible' => 'string|nullable|regex:/^([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
     ];
 
     public function mount()
