@@ -20,8 +20,9 @@ class DepaSave extends Component
     public $department;
 
     protected $rules = [
-        'name' => 'required|min:3',
-        'responsible' => 'regex:/^[\pL\s\-]+$/u',
+        'name' => 'required|min:3|max:50|string',
+        'description' => 'string|nullable|regex:/^([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
+        'responsible' => 'string|nullable|regex:/^([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
     ];
 
     public function mount($id = null)

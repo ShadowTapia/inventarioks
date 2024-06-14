@@ -23,8 +23,12 @@ class SaveCompany extends Component
     public $company;
 
     protected $rules = [
-        'name' => 'required|min:3',
-        'email' => 'email',
+        'name' => 'required|min:3|max:70|regex:/^([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
+        'description' => 'nullable|string',
+        'url' => 'url|nullable',
+        'phone' => 'nullable',
+        'email' => 'nullable|email',
+        'contact' => 'string|nullable|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
     ];
 
     public function mount($id = null)

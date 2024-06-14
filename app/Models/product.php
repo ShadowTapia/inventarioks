@@ -9,6 +9,15 @@ class product extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'description',
+        'modelo',
+        'productype_id',
+        'supplier_id',
+        'company_id'
+    ];
+
     /**
      * Relación uno es a muchos inversa
      * Tabla User

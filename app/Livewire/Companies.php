@@ -24,7 +24,7 @@ class Companies extends Component
     #[Layout('layouts.app')]
     public function render()
     {
-        $companys = company::paginate(10);
+        $companys = company::paginate(50);
 
         return view('livewire.companies', ['companys' => $companys, 'title' => $this->title]);
     }

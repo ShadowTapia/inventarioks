@@ -25,7 +25,6 @@ class PrintCodebarAll extends Controller
 
         $devlist = devices::all();
 
-
         if ($devlist->count() > 0) {
             $conta = 0;
             foreach ($devlist as $devi) {
