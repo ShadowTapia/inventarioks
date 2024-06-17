@@ -115,7 +115,6 @@ class ProductsList extends Component
      */
     public function editProduct()
     {
-
         DB::beginTransaction();
         try {
             if ($this->product) {

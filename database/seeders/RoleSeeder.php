@@ -26,6 +26,7 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'roles', 'description' => 'Lista de Roles'])->assignRole($role1);
         Permission::create(['name' => 'rol.create', 'description' => 'Creación de Roles'])->assignRole($role1);
         Permission::create(['name' => 'rol.edit', 'description' => 'Edición de Roles'])->assignRole($role1);
+        Permission::create(['name' => 'rol.destroy', 'description' => 'Eliminación de Roles'])->assignRole($role1);
         //Departamentos
         Permission::create(['name' => 'departamentos', 'description' => 'Lista de Departamentos'])->assignRole($role1);
         Permission::create(['name' => 'depa.create', 'description' => 'Creación de Departamentos'])->assignRole($role1);
@@ -49,6 +50,7 @@ class RoleSeeder extends Seeder
         //Productos
         Permission::create(['name' => 'productslist', 'description' => 'Listado de Productos'])->assignRole($role1);
         Permission::create(['name' => 'pro.create', 'description' => 'Creación de Productos'])->assignRole($role1);
+        Permission::create(['name' => 'pro.edit', 'description' => 'Edición de Productos'])->assignRole($role1);
         Permission::create(['name' => 'print.product', 'description' => 'Impresión de Productos'])->assignRole($role1);
         //Devices
         Permission::create(['name' => 'devicelist', 'description' => 'Listado de Dispositivos'])->assignRole($role1);
