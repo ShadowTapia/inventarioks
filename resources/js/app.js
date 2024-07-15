@@ -1,6 +1,8 @@
 import './bootstrap';
+import './../../vendor/power-components/livewire-powergrid/dist/powergrid';
+import './../../vendor/power-components/livewire-powergrid/dist/tailwind.css';
 
-var myFile = "";
+/* var myFile = "";
 $('#file').on('change', function () {
     myFile = $(this).val();
     var ext = myFile.split('.').pop();
@@ -10,7 +12,7 @@ $('#file').on('change', function () {
         alert(ext);
     }
 });
-
+ */
 //Cambiar imagen
 // document.getElementById("file").addEventListener('change', cambiarImagen);
 

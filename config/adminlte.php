@@ -349,10 +349,23 @@ return [
             'can' => 'usuarios',
         ],
         [
-            'text' => 'Roles',
-            'route'  => 'roles',
+            'text' => 'Permisos',
             'icon' => 'fas fa-user-cog fa-fw',
-            'can' => 'roles',
+            'submenu' => [
+                [
+                    'text' => 'Roles',
+                    'route'  => 'roles',
+                    'icon' => 'fas fa-stream',
+                    'can' => 'roles',
+                ],
+                [
+                    'text' => 'Permisos',
+                    'route' => 'permisos',
+                    'icon' => 'fas fa-user-lock',
+                    'can' => 'permisos',
+                ],
+            ],
+
         ],
         ['header' => 'Sistema Inventario'],
         [

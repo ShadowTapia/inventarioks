@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Livewire\Permisos\PermisosTable;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rules\Password;
+use Livewire\Livewire;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +22,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Password::default(static function (): Password {
+            return Password::min(8)
+                ->letters()
+                ->mixedCase()
+                ->numbers()
+                ->uncompromised();
+        });
+
+        Livewire::component('permisos-table', PermisosTable::class);
     }
 }

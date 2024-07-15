@@ -170,6 +170,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
+        Livewire\LivewireServiceProvider::class,
+
 
         //Spatie
         Spatie\Permission\PermissionServiceProvider::class,

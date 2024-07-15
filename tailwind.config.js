@@ -11,6 +11,13 @@ export default {
         './resources/views/**/*.blade.php',
         './vendor/usernotnull/tall-toasts/config/**/*.php',
         './vendor/usernotnull/tall-toasts/resources/views/**/*.blade.php',
+        "./app/Livewire/**/*Table.php",
+        './vendor/power-components/livewire-powergrid/resources/views/**/*.php',
+        './vendor/power-components/livewire-powergrid/src/Themes/Tailwind.php',
+    ],
+
+    presets: [
+        './vendor/power-components/livewire-powergrid/tailwind.config.js',
     ],
 
     theme: {
@@ -20,6 +27,7 @@ export default {
             },
         },
     },
+
 
     plugins: [forms, typography],
 };

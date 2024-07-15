@@ -9,6 +9,7 @@ use App\Http\Controllers\PrintPDF;
 use App\Livewire\Department;
 use App\Livewire\DepaSave;
 use App\Livewire\Devicelist;
+use App\Livewire\PermisosList;
 use App\Livewire\ProductsList;
 use App\Livewire\Productype;
 use App\Livewire\Role;
@@ -69,6 +70,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified'], 'prefix' => 'dashboa
     Route::get('croles', Role::class)->middleware('can:roles')->name('roles');
     Route::get('create-rol', RoleSave::class)->middleware('can:roles')->name('rol.create');
     Route::get('update-rol/{id}', RoleSave::class)->middleware('can:roles')->name('rol.edit');
+    //Permisos
+    Route::get('cpermisos', PermisosList::class)->middleware('can:permisos')->name('permisos');
     //Departamentos
     Route::get('cdepas', Department::class)->middleware('can:departamentos')->name('departamentos');
     Route::get('create-depa', DepaSave::class)->middleware('can:departamentos')->name('depa.create');

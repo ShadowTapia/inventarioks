@@ -8,7 +8,7 @@
         <div>
             <div class="flex mt-1">
                 <div class="shrink w-45">
-                    <x-input id="name" type="text" placeholder="Ingrese nombre o email" name="name" wire:model.live="name" wire:keydown.enter="$refresh" class="w-full mt-1"/>
+                    <x-input id="xname" type="text" placeholder="Ingrese nombre o email" name="name" wire:model.live="name" wire:keydown.enter="$refresh" class="w-full mt-1"/>
                 </div>
                 <div class="items-center flex-initial pt-2 pl-2">
                     <x-secondary-button wire:click="cleanFilter" class="ml-2 p-filter-button">

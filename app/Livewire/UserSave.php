@@ -29,7 +29,7 @@ class UserSave extends Component
     protected $rules = [
         'name' => 'required|min:3',
         'email' => 'required|email|unique:users,email',
-        'password' => 'required',
+        'password' => 'required|min:8|',
         'userRoles.*' => 'exists:roles,id',
     ];
 

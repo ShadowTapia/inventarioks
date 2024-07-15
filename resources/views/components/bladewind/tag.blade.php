@@ -1,4 +1,4 @@
-@props([
+@props([ 
     'label' => '',
 //    'color' => 'blue',
     'class' => '',
@@ -32,7 +32,7 @@
     'name' => null,
     'required' => false,
 ])
-@php
+@php 
     // reset variables for Laravel 8 support
     $can_close = filter_var($can_close, FILTER_VALIDATE_BOOLEAN);
     $canClose = filter_var($canClose, FILTER_VALIDATE_BOOLEAN);
@@ -69,3 +69,4 @@
     </a>
     @endif
 </label>
+{{--<span class="border-red-200 border-yellow-200 border-green-200 border-pink-200 border-cyan-200 border-gray-200 border-blue-200 border-purple-200 border-orange-200"></span><span class="bg-red-200 hover:bg-red-500 bg-yellow-200 hover:bg-yellow-500 bg-green-200 hover:bg-green-500 bg-pink-200 hover:bg-pink-500 bg-cyan-200 hover:bg-cyan-500 bg-gray-200 hover:bg-gray-500 bg-blue-200 hover:bg-blue-500 bg-purple-200 hover:bg-purple-500 bg-orange-200 hover:bg-orange-500 bg-red-500 bg-yellow-500 bg-green-500 bg-pink-500 bg-gray-500 bg-cyan-500 bg-blue-500 bg-gray-500 bg-purple-500 bg-orange-500 text-red-500 text-yellow-500 text-green-500 bg-gray-500 text-pink-500 text-cyan-500 text-purple-500 text-orange-500 text-red-50 text-yellow-50 text-green-50 text-pink-50 text-cyan-50 text-purple-50 text-gray-50 text-blue-50 text-orange-50 hover:text-red-50 hover:text-yellow-50 hover:text-green-50 hover:text-pink-50 hover:text-cyan-50 hover:text-purple-50 hover:text-gray-50 hover:text-blue-50 hover:text-orange-50 bg-red-200 bg-yellow-200 bg-green-200 bg-pink-200 bg-cyan-200 bg-gray-200 bg-blue-200 bg-purple-200 bg-orange-200 border-red-500 border-yellow-500 border-green-500 border-pink-500 border-gray-500 border-cyan-500 border-blue-500 border-gray-500 border-purple-500 border-orange-500"></span>--}}

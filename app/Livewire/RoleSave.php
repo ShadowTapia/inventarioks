@@ -28,6 +28,8 @@ class RoleSave extends Component
     public function mount($id = null)
     {
         $this->init($id);
+        /** \App\User */
+        $user = auth()->user();
     }
 
     #[Layout('layouts.app')]
@@ -36,7 +38,7 @@ class RoleSave extends Component
         return view('livewire.role-save', ['title' => $this->title])
             ->withPermissions(
                 cache()->remember('permissions', 60, function () {
-                    return Permission::all();
+                    return Permission::all()->sortBy('order');
                 })
             );
     }

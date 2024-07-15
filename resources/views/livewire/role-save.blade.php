@@ -21,7 +21,7 @@
             <h2 class="h3">Lista de Permisos</h2>
             @foreach ($permissions as $permiso )
                 <div class="flex justify-between">
-                    <label for="permiso-{{$permiso->description}}">{{$permiso->description}}</label>
+                    <label for="permiso-{{$permiso->description}}">{{ $permiso->orden }}.-  {{$permiso->description}}</label>
                     <input class="rounded form-checkbox" id="permiso-{{$permiso->description}}" type="checkbox" value="{{$permiso->id}}" wire:model.lazy="userPermissions"/>
                 </div>
             @endforeach
