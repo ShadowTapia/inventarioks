@@ -1,6 +1,7 @@
 import './bootstrap';
 import './../../vendor/power-components/livewire-powergrid/dist/powergrid';
 import './../../vendor/power-components/livewire-powergrid/dist/tailwind.css';
+import '../../vendor/masmerise/livewire-toaster/resources/js';
 
 /* var myFile = "";
 $('#file').on('change', function () {

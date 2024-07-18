@@ -8,6 +8,7 @@ use illuminate\Http\RedirectResponse;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
+use Masmerise\Toaster\Toaster;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Exportable;
@@ -21,9 +22,9 @@ use PowerComponents\LivewirePowerGrid\Responsive;
 use PowerComponents\LivewirePowerGrid\Themes\Tailwind;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
-class PermisosTable extends PowerGridComponent
-{
 
+final class PermisosTable extends PowerGridComponent
+{
     public array $orden;
     public bool $deferLoading = true;
 
@@ -85,23 +86,26 @@ class PermisosTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('N°', 'id')->index(),
+            Column::make('N°', 'id')->index()->headerAttribute('bg-sky-700 text-white text-center text-sm'),
 
             Column::make('Id', 'id')->hidden(),
 
             Column::make('Descripción', 'description')
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->headerAttribute('bg-sky-700 text-white text-center text-sm'),
 
-            Column::make('Guardia', 'guard_name'),
+            Column::make('Guardia', 'guard_name')->headerAttribute('bg-sky-700 text-white text-center text-sm'),
 
             Column::make('Orden', 'orden')
                 ->sortable()
                 ->editOnClick(hasPermission: true)
-                ->searchable(),
+                ->searchable()
+                ->headerAttribute('bg-sky-700 text-white text-center text-sm'),
 
             Column::make('Creado en', 'created_at_formatted', 'created_at')
                 ->sortable()
+                ->headerAttribute('bg-sky-700 text-white text-center text-sm')
         ];
     }
 
@@ -119,7 +123,10 @@ class PermisosTable extends PowerGridComponent
         ]);
 
         if ($updated) {
+            Toaster::success('Actualización exitosa!');
             $this->fillData();
+        } else {
+            Toaster::error('No se pudo editar el valor.-');
         }
     }
 

@@ -89,6 +89,17 @@
       'Livewire' => 'Livewire\\Livewire',
     ),
   ),
+  'masmerise/livewire-toaster' => 
+  array (
+    'aliases' => 
+    array (
+      'Toaster' => 'Masmerise\\Toaster\\Toaster',
+    ),
+    'providers' => 
+    array (
+      0 => 'Masmerise\\Toaster\\ToasterServiceProvider',
+    ),
+  ),
   'mkocansey/bladewind' => 
   array (
     'providers' => 

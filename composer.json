@@ -19,6 +19,7 @@
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.2",
         "livewire/livewire": "^3.0",
+        "masmerise/livewire-toaster": "^2.0",
         "mkocansey/bladewind": "^2.3",
         "picqer/php-barcode-generator": "^2.4",
         "power-components/livewire-powergrid": "^5.8",
