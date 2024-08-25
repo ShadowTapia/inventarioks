@@ -60,6 +60,7 @@
             {{ $depas->links() }}
         </div>
 
+
         {{-- Delete User Confirmation Modal --}}
         <x-confirmation-modal maxWidth="md" wire:model.live="confirmingDepaDeletion">
                 <x-slot name="title">

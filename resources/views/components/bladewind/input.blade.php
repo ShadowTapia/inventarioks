@@ -8,11 +8,15 @@
     'label' => '',
     // should the input accept numbers only. Default is false
     'numeric' => false,
+    // minimum number a user can enter when numeric=true
+    'min' => null,
+    // maximum number a user can enter when numeric=true
+    'max' => null,
     // is this a required field. Default is false
     'required' => false,
     // adds margin after the input box
-    'add_clearing' => true,
-    'addClearing' => true,
+    'add_clearing' => config('bladewind.input.add_clearing', true),
+    'addClearing' => config('bladewind.input.add_clearing', true),
     // placeholder text
     'placeholder' => '',
     // value to set when in edit mode or if you want to load the input with default text
@@ -21,8 +25,8 @@
     // should the placeholder always be visible even if a label is set
     // by default the label overwrites the placeholder
     // useful if you dont want this overwriting
-    'show_placeholder_always' => false,
-    'showPlaceholderAlways' => false,
+    'show_placeholder_always' => config('bladewind.input.show_placeholder_always', false),
+    'showPlaceholderAlways' => config('bladewind.input.show_placeholder_always', false),
     // message to display when validation fails for this field
     // this is just attached to the input field as a data attribute
     'error_message' => '',
@@ -34,8 +38,8 @@
     // how should error messages be displayed for this input
     // by default error messages are displayed in the Bladewind notification component
     // the component should exist on the page
-    'show_error_inline' => false,
-    'showErrorInline' => false,
+    'show_error_inline' => config('bladewind.input.show_error_inline', false),
+    'showErrorInline' => config('bladewind.input.show_error_inline', false),
     // for numeric input only: should the numbers include dots
     'with_dots' => true,
     'withDots' => true,
@@ -49,11 +53,11 @@
     // set the suffix for the input field
     'suffix' => '',
     // define if prefix background is transparent
-    'transparent_prefix' => true,
-    'transparentPrefix' => true,
+    'transparent_prefix' => config('bladewind.input.transparent_prefix', true),
+    'transparentPrefix' => config('bladewind.input.transparent_prefix', true),
     // define if suffix background is transparent
-    'transparent_suffix' => true,
-    'transparentSuffix' => true,
+    'transparent_suffix' => config('bladewind.input.transparent_suffix', true),
+    'transparentSuffix' => config('bladewind.input.transparent_suffix', true),
     // force (or not) prefix to be an icon
     'prefix_is_icon' => false,
     'prefixIsIcon' => false,
@@ -68,12 +72,21 @@
     'suffixIconType' => 'outline',
     // should password be viewable
     'viewable' => false,
+    // should field be clearable
+    'clearable' => config('bladewind.input.clearable', false),
     // additional css for prefix
     'prefix_icon_css' => '',
     'prefixIconCss' => '',
     // additional css for suffix
     'suffix_icon_css' => '',
     'suffixIconCss' => '',
+    // additional css for div containing the prefix
+    'prefix_icon_div_css' => '',
+    // additional css for div containing the suffix
+    'suffix_icon_div_css' => 'rtl:!right-[unset] rtl:!left-0',
+    // javascript to execute when suffix icon is clicked
+    'action' => null,
+    'size' => config('bladewind.input.size', 'medium'),
 ])
 @php
     // reset variables for Laravel 8 support
@@ -100,6 +113,7 @@
     $required = filter_var($required, FILTER_VALIDATE_BOOLEAN);
     $numeric = filter_var($numeric, FILTER_VALIDATE_BOOLEAN);
     $viewable = filter_var($viewable, FILTER_VALIDATE_BOOLEAN);
+    $clearable = filter_var($clearable, FILTER_VALIDATE_BOOLEAN);
 
     if (!$addClearing) $add_clearing = $addClearing;
     if ($showPlaceholderAlways) $show_placeholder_always = $showPlaceholderAlways;
@@ -128,20 +142,33 @@
     $with_dots = ($with_dots) ? 1 : 0;
 
     if($type == "password" && $viewable) {
-        $suffix = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 cursor-pointer show-pwd" onclick="togglePassword(\''.$name.'\', \'show\')"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 cursor-pointer hide-pwd hidden" onclick="togglePassword(\''.$name.'\', \'hide\')"><path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" /></svg>';
+        $suffix = 'eye';
+        $suffix_icon_css = 'show-pwd';
+        $action = 'togglePassword(\''.$name.'\', \'show\')';
         $suffix_is_icon = true;
+    }
+
+    if($clearable) {
+        $suffix = 'x-mark';
+        $suffix_is_icon = true;
+        $suffix_icon_css = 'hidden cursor-pointer dark:!bg-dark-900/60 dark:hover:!bg-dark-900 !p-0.5 !rounded-full bg-gray-400 !stroke-2 hover:bg-gray-600 text-white';
+    }
+    if($attributes->has('readonly', 'disabled')){
+        if($attributes->get('readonly') == 'false') $attributes = $attributes->except('readonly');
+        if($attributes->get('disabled') == 'false') $attributes = $attributes->except('disabled');
     }
 @endphp
 
-<div class="relative w-full dv-{{$name}} @if($add_clearing) mb-3 @endif">
+<div class="relative w-full dv-{{$name}} @if($add_clearing) mb-4 @endif">
     <input
-            {{ $attributes->merge(['class' => "bw-input peer $is_required $name $placeholder_color"]) }}
-            type="{{ $type }}"
-            id="{{ $name }}"
-            name="{{ $name }}"
-            value="{{ $selected_value }}"
-            autocomplete="off"
-            placeholder="{{ $placeholder_label }}{{$required_symbol}}"
+            {{ $attributes->class(["bw-input peer $is_required $name $placeholder_color $size"])->merge([
+                'type' => $type,
+                'id' => $name,
+                'name' => $name,
+                'value' => html_entity_decode($selected_value),
+                'autocomplete' => "new-password",
+                'placeholder' => $placeholder_label.$required_symbol,
+            ]) }}
             @if($error_message != '')
                 data-error-message="{{$error_message}}"
             data-error-inline="{{$show_error_inline}}"
@@ -152,27 +179,41 @@
         <div class="text-red-500 text-xs p-1 {{ $name }}-inline-error hidden">{{$error_message}}</div>
     @endif
     @if(!empty($label))
-        <label for="{{ $name }}" class="form-label" onclick="dom_el('.{{$name}}').focus()">{!! $label !!}
+        <label for="{{ $name }}" class="form-label {{$size}}" onclick="dom_el('.{{$name}}').focus()">{!! $label !!}
             @if($required)
                 <x-bladewind::icon name="star" class="!text-red-400 !w-2 !h-2 mt-[-2px]" type="solid"/>
             @endif
         </label>
     @endif
     @if (!empty($prefix))
-        <div class="{{$name}}-prefix prefix text-sm select-none pl-3.5 pr-2 z-20 text-blue-900/50 dark:text-dark-400 absolute left-0 inset-y-0 inline-flex items-center @if(!$transparent_prefix) bg-slate-100 border-2 border-slate-200 dark:border-dark-700 dark:bg-dark-900/50 dark:border-r-0 border-r-0 rounded-tl-md rounded-bl-md @endif"
+        <div class="{{$name}}-prefix prefix text-sm select-none pl-3.5 pr-2 z-20 {{$prefix_icon_div_css}} text-blue-900/50 dark:text-dark-400 absolute left-0 inset-y-0 inline-flex items-center @if(!$transparent_prefix) bg-slate-100 border-2 border-slate-200 dark:border-dark-700 dark:bg-dark-900/50 dark:border-r-0 border-r-0 rounded-tl-md rounded-bl-md @endif"
              data-transparency="{{$transparent_prefix}}">
             @if($prefix_is_icon)
-                <x-bladewind::icon name='{!! $prefix !!}' type="{{ $prefix_icon_type }}" class="{{$prefix_icon_css}}"/>
+                <x-bladewind::icon name='{!! $prefix !!}' type="{{ $prefix_icon_type }}"
+                                   class="!size-4 !stroke-2 !opacity-70 hover:!opacity-100 {{$prefix_icon_css}}"/>
             @else
                 {!! $prefix !!}
             @endif</div>
-        <script>positionPrefix('{{$name}}', 'blur', '{{$transparent_prefix}}');</script>
+        <script>positionPrefix('{{$name}}', 'blur');</script>
     @endif
     @if (!empty($suffix))
-        <div class="{{$name}}-suffix suffix text-sm select-none pl-3.5 !pr-3 z-20 text-blue-900/50 dark:text-dark-400 absolute right-0 inset-y-0 inline-flex items-center @if(!$transparent_suffix) bg-slate-100 border-2 border-slate-200 border-l-0 dark:border-dark-700 dark:bg-dark-900/50 dark:border-l-0 rounded-tr-md rounded-br-md @endif"
+        <div class="{{$name}}-suffix suffix text-sm select-none pl-3.5 !pr-3 {{$suffix_icon_div_css}} z-20 text-blue-900/50 dark:text-dark-400 absolute right-0 inset-y-0 inline-flex items-center @if(!$transparent_suffix) bg-slate-100 border-2 border-slate-200 border-l-0 dark:border-dark-700 dark:bg-dark-900/50 dark:border-l-0 rounded-tr-md rounded-br-md @endif"
              data-transparency="{{$transparent_prefix}}">
             @if($suffix_is_icon)
-                <x-bladewind::icon name='{!! $suffix !!}' type="{{ $suffix_icon_type }}" class="{{$suffix_icon_css}}"/>
+                <x-bladewind::icon
+                        name='{!! $suffix !!}'
+                        type="{{ $suffix_icon_type }}"
+                        class="!size-4 !stroke-2 !opacity-85 hover:!opacity-100 {{$suffix_icon_css}}"
+                        action="{!! $action !!}"/>
+
+                {{-- this will be shown when user clicks to reveal password // so they can hide the password --}}
+                @if($type == 'password' && $viewable)
+                    <x-bladewind::icon
+                            name='eye-slash'
+                            type="{{ $suffix_icon_type }}"
+                            class="!size-4 !stroke-2 !opacity-85 hover:!opacity-100 hide-pwd hidden"
+                            action="togglePassword('{{$name}}', 'hide')"/>
+                @endif
             @else
                 {!! $suffix !!}
             @endif
@@ -181,9 +222,22 @@
     @endif
 </div>
 <input type="hidden" class="bw-raw-select"/>
-@if($numeric)
-    <script>dom_el('input.{{$name}}').addEventListener('keydown', (event) => {
-            isNumberKey(event, {{$with_dots}});
-        });
-    </script>
-@endif
+<script>
+    @if($numeric)
+    dom_el('input.{{$name}}').addEventListener('keydown', (event) => {
+        isNumberKey(event, {{$with_dots}});
+    });
+    dom_el('input.{{$name}}').setAttribute('inputmode', 'numeric');
+    @if($min || $max)
+    dom_el('input.{{$name}}').addEventListener('keyup', (event) => {
+        checkMinMax('{{$min}}', '{{$max}}', '{{$name}}');
+    });
+    @endif
+    @endif
+
+    @if($clearable)
+    dom_el('input.{{$name}}').addEventListener('keyup', (event) => {
+        makeClearable('{{$name}}');
+    });
+    @endif
+</script>

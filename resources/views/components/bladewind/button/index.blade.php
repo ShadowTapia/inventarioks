@@ -4,7 +4,7 @@
     'type' => 'primary',
 
     // tiny, small, regular, big
-    'size' => 'regular',
+    'size' => config('bladewind.button.size', 'regular'),
 
     // for use with css and js if you want to manipulate the button
     'name' => null,
@@ -29,26 +29,46 @@
 
     // what tags to use for drawing the button <a> or <button>
     // available options are a, button
-    'tag' => 'button',
+    'tag' => config('bladewind.button.tag', 'button'),
 
-    // red, yellow, green, blue, purple, orange, cyan, black
-    'color' => 'primary',
+    // button colour
+    'color' => '',
 
     // overwrite the button text color
-    'button_text_css' => '',
-    'buttonTextCss' => '',
+    'button_text_css' => null,
+    'buttonTextCss' => null,
 
     // icon to display to the left of the button
     'icon' => '',
-    'icon_right' => false,
-    'iconRight' => false,
+    'icon_right' => config('bladewind.button.icon_right', false),
+    'iconRight' => config('bladewind.button.icon_right', false),
 
-    // should a ring be shown around the button
-    'show_focus_ring' => true,
-    'showFocusRing' => true,
+    // should a ring be shown around the button?
+    'show_focus_ring' => config('bladewind.button.show_focus_ring', true),
+    'showFocusRing' => config('bladewind.button.show_focus_ring', true),
+
+    // should the button be only an outline
+    'outline' => config('bladewind.button.outline', false),
+
+    // thickness of outline
+    // 2, 4, 8
+    // becomes border-2, border-4, border-8
+    'border_width' => config('bladewind.button.border_width', 2),
+
+    // thickness of the ring shown on focus
+    // 1, 2, 4, 8
+    // becomes ring, ring-1, ring-2, ring-4, ring-8
+    'ring_width' => config('bladewind.button.ring_width', ''),
 
     // determines how rounded the button should be
-    'radius' => 'full',
+    // none, small, medium, full
+    'radius' => config('bladewind.button.radius', 'small'),
+
+    // is this a circular button
+    'circular' => false,
+
+    // display button text as uppercase or as user entered
+    'uppercasing' => config('bladewind.button.uppercasing', true),
 
     // css fpr various radii
     'roundness'     => [
@@ -58,18 +78,19 @@
         'full'      => 'rounded-full',
     ],
 
-    // css for the various colours
-    'colours'       => [
-        'primary'   => '!bg-primary-500 focus:ring-primary-500/70 hover:!bg-primary-700 active:!bg-primary-700 %s',
-        'red'       => '!bg-red-500 focus:ring-red-500 hover:!bg-red-700 active:!bg-red-700 %s',
-        'yellow'    => '!bg-yellow-500 focus:ring-yellow-500 hover:!bg-yellow-700 active:!bg-yellow-700 %s',
-        'green'     => '!bg-green-500 focus:ring-green-500 hover:!bg-green-700 active:!bg-green-700 %s',
-        'blue'      => '!bg-blue-500 focus:ring-blue-500 hover:!bg-blue-700 active:!bg-blue-700 %s',
-        'orange'    => '!bg-orange-500 focus:ring-orange-500 hover:!bg-orange-700 active:!bg-orange-700 %s',
-        'purple'    => '!bg-purple-500 focus:ring-purple-500 hover:!bg-purple-700 active:!bg-purple-700 %s',
-        'cyan'      => '!bg-cyan-500 focus:ring-cyan-500 hover:!bg-cyan-700 active:!bg-cyan-700 %s',
-        'pink'      => '!bg-pink-500 focus:ring-pink-500 hover:!bg-pink-700 active:!bg-pink-700 %s',
-        'black'     => '!bg-black focus:ring-black hover:!bg-black active:!bg-black %s',
+    'icon_size' => [
+        'circular' => [
+            'tiny' => '!size-[18px]',
+            'small' => '!size-[22px]',
+            'regular' => '!size-6',
+            'medium' => '!size-7',
+            'big' => '!size-9',
+        ],
+        'tiny' => '!size-3 !mt-[-2px]',
+        'small' => '!size-3.5',
+        'regular' => '!size-4',
+        'medium' => '!size-[20px]',
+        'big' => '!size-[25px]',
     ],
 ])
 
@@ -80,6 +101,9 @@
     $hasSpinner = filter_var($hasSpinner, FILTER_VALIDATE_BOOLEAN);
     $can_submit = filter_var($can_submit, FILTER_VALIDATE_BOOLEAN);
     $canSubmit = filter_var($canSubmit, FILTER_VALIDATE_BOOLEAN);
+    $outline = filter_var($outline, FILTER_VALIDATE_BOOLEAN);
+    $uppercasing = filter_var($uppercasing, FILTER_VALIDATE_BOOLEAN);
+    $circular = filter_var($circular, FILTER_VALIDATE_BOOLEAN);
     $show_focus_ring = filter_var($show_focus_ring, FILTER_VALIDATE_BOOLEAN);
     $showFocusRing = filter_var($showFocusRing, FILTER_VALIDATE_BOOLEAN);
 
@@ -88,27 +112,45 @@
     if($canSubmit) $can_submit = $canSubmit;
     if(!$showFocusRing) $show_focus_ring = $showFocusRing;
 
+    $colour = (!empty($color)) ? $color : $type;
+    $outline_colour =   "border-$colour-500/50 focus:ring-$colour-500 hover:border-$colour-600
+                        dark:hover:border-$colour-500 active:border-$colour-600 text-$colour-600  %s";
+    $button_colour =    "!bg-$colour-500 hover:!bg-$colour-600 focus:ring-$colour-500 active:bg-$colour-600 %s";
+
+    if($colour == 'black') {
+        $outline_colour = preg_replace('/(-)?(\/)?\d+/', '', $outline_colour);
+        $button_colour = preg_replace('/-\d+/', '', $button_colour);
+    }
     $button_type = ($can_submit) ? 'submit' : 'button';
-    $spinner_css = (!$show_spinner) ? 'hidden' : '';
-    $focus_ring_css = (!$show_focus_ring) ? 'focus:!ring-0' : 'focus:!ring';
-    $primary_colour_css = ($type == 'primary') ? sprintf($colours[$color],$focus_ring_css) : '';
+    $spinner_css =  sprintf(($outline ? 'text-gray-600 dark:text-white %s' : 'text-white %s'), (!$show_spinner) ?  'hidden' : '');
+    $focus_ring_width = ($ring_width !== '' && in_array((int)$ring_width, [1,2,4,8])) ? '-'.$ring_width : '';
+    $focus_ring_css = (!$show_focus_ring) ? 'focus:ring-0 focus:outline-0' : 'focus:ring'.$focus_ring_width;
+    $border_width = ' border-'.$border_width;
+    $primary_colour_css = (($outline) ?
+        sprintf($outline_colour,$focus_ring_css.$border_width) :
+        sprintf($button_colour,$focus_ring_css)
+    );
     $radius_css = $roundness[$radius] ?? 'rounded-full';
     $button_text_css = (!empty($buttonTextCss)) ? $buttonTextCss : $button_text_css;
-    $button_text_colour = $button_text_css ?? ($type === 'primary' ? 'text-white hover:text-white' : 'text-black hover:text-black');
+    $button_text_colour = (!empty($button_text_css)) ? $button_text_css : 'text-white hover:text-white';
     $disabled_css = $disabled ? 'disabled' : 'cursor-pointer';
+    $outline_css = ($outline) ? 'outlined '.$border_width : '';
+    $has_icon_css = (!empty($icon)) ? ' has-icon ' : '';
     $tag = ($tag !== 'a' && $tag !== 'button') ? 'button' : $tag;
-    $merged_attributes = $attributes->merge(['class' => "bw-button $size $type $name $primary_colour_css $disabled_css $radius_css"]);
+    $base_button_css = ($circular) ? 'bw-button-circle' : 'bw-button '.(($uppercasing) ? 'uppercase ' : '');
+    $merged_attributes = $attributes->merge(['class' => "$base_button_css $size $type $name $primary_colour_css $disabled_css $radius_css $outline_css $has_icon_css"]);
+    $icon_css = ($circular) ? $icon_size['circular'][$size] : $icon_size[$size].' dark:text-white/80 ' . ((!$icon_right) ? '!-ml-2 rtl:!-mr-2 !mr-2 rtl:!ml-2' : '!-mr-2 rtl:!-ml-2 !ml-2 rtl:!mr-2');
 @endphp
 
 <{{ $tag }} {{ $merged_attributes }} @if($disabled) disabled @endif @if($tag == 'button') type="{{ $button_type }}" @endif >
     @if(!empty($icon) && !$icon_right)
-        <x-bladewind::icon name="{{$icon}}" class="h-5 w-5 !-ml-2 mr-2 dark:text-white/80" />
+        <x-bladewind::icon :name="$icon" class="stroke-2 {{$icon_css}}" />
     @endif
-    <span class="grow {{ $button_text_colour }}">{{ $slot }}</span>
+    <span class="grow {{ $button_text_css }}">{{ $slot }}</span>
     @if(!empty($icon) && $icon_right && !$has_spinner)
-        <x-bladewind::icon name="{{$icon}}" class="h-5 w-5 !-mr-2 ml-2 dark:text-white/80" />
+        <x-bladewind::icon :name="$icon" class="stroke-2 {{$icon_css}}" />
     @endif
     @if($has_spinner)
-        <x-bladewind::spinner class="!-mr-2 !ml-2 {{ $spinner_css }}" />
+        <x-bladewind::spinner class="{{$icon_size[$size]}} !-mr-2 rtl:!-ml-2 !ml-2 rtl:!mr-2 {{ $spinner_css }}" />
     @endif
 </{{$tag}}>

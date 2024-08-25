@@ -2,11 +2,18 @@ class BladewindSelect {
     clickArea;
     rootElement;
     itemsContainer;
-    filterInput;
+    searchInput;
     selectItems;
     isMultiple;
+    required;
     displayArea;
     formInput;
+    maxSelection;
+    toFilter;
+    selectedValue;
+    canClear;
+    enabled;
+
 
     constructor(name, placeholder) {
         this.name = name;
@@ -15,43 +22,58 @@ class BladewindSelect {
         this.clickArea = `${this.rootElement} .clickable`;
         this.displayArea = `${this.rootElement} .display-area`;
         this.itemsContainer = `${this.rootElement} .bw-select-items-container`;
-        this.filterInput = `${this.itemsContainer} .bw_filter`;
+        this.searchInput = `${this.itemsContainer} .bw_search`;
         this.selectItems = `${this.itemsContainer} .bw-select-items .bw-select-item`;
         this.isMultiple = (dom_el(this.rootElement).getAttribute('data-multiple') === 'true');
+        this.required = (dom_el(this.rootElement).getAttribute('data-required') === 'true');
         this.formInput = `input.bw-${this.name}`;
-        dom_el(this.displayArea).style.width = `${(dom_el(this.rootElement).offsetWidth - 40)}px`;
+        dom_el(this.displayArea).style.maxWidth = `${(dom_el(this.rootElement).offsetWidth - 40)}px`;
+        this.maxSelection = -1;
+        this.canClear = (!this.required && !this.isMultiple);
+        this.enabled = true;
     }
 
-    activate = () => {
-        dom_el(this.clickArea).addEventListener('click', (e) => {
-            unhide(this.itemsContainer);
-        });
-        this.hide();
-        this.filter();
-        this.manualModePreSelection();
-        this.selectItem();
+    activate = (options = {}) => {
+        if (options.disabled !== '1' && options.readonly !== '1') {
+            dom_el(this.clickArea).addEventListener('click', (e) => {
+                unhide(this.itemsContainer);
+            });
+            this.hide();
+            this.search();
+            this.manualModePreSelection();
+            this.selectItem();
+        } else {
+            this.selectItem();
+            this.enabled = false;
+        }
+    }
+
+    clearable = () => {
+        this.canClear = true;
     }
 
     hide = () => {
         document.addEventListener('mouseup', (e) => {
-            let searchArea = dom_el(this.filterInput);
+            let searchArea = dom_el(this.searchInput);
             let container = dom_el((this.isMultiple) ? this.itemsContainer : this.clickArea);
-            if (searchArea !== null && !searchArea.contains(e.target) && !container.contains(e.target)) hide(this.itemsContainer);
+            if (searchArea && container && !searchArea.contains(e.target) && !container.contains(e.target)) hide(this.itemsContainer);
         });
     }
 
-    filter = () => {
-        dom_el(this.filterInput).addEventListener('keyup', (e) => {
-            let value = (dom_el(this.filterInput).value);
+    search = () => {
+        dom_el(this.searchInput).addEventListener('keyup', (e) => {
+            let value = (dom_el(this.searchInput).value);
             dom_els(this.selectItems).forEach((el) => {
-                (el.innerText.toLowerCase().indexOf(value.toLowerCase()) !== -1) ? unhide(el, true) : hide(el, true);
+                (el.innerText.toLowerCase().indexOf(value.toLowerCase()) !== -1) ?
+                    unhide(el, true) :
+                    hide(el, true);
             });
         });
     }
 
     /**
      * When using non-dynamic selects, ensure select_value=<value>
-     * works the same way as for dynamic selects. This saves the use from
+     * works the same way as for dynamic selects. This saves the user from
      * manually checking if each select-item should be selected or not.
      */
     manualModePreSelection = () => {
@@ -76,45 +98,75 @@ class BladewindSelect {
         });
     }
 
+    moveLabel = (direction = 'up') => {
+        let placeholderElement = domEl(`${this.rootElement} .placeholder`);
+        let labelElement = domEl(`${this.rootElement} .placeholder .form-label`);
+        if (labelElement) {
+            if (direction === 'up') {
+                changeCss(labelElement, '!top-4', 'remove', true);
+            } else {
+                changeCss(labelElement, '!top-4', 'add', true);
+            }
+            unhide(placeholderElement, true);
+        }
+    }
+
     setValue = (item) => {
-        let selectedValue = item.getAttribute('data-value');
+        this.selectedValue = item.getAttribute('data-value');
         let selectedLabel = item.getAttribute('data-label');
-        let svg = dom_el(`${this.rootElement} div[data-value="${selectedValue}"] svg`);
+        let svg = dom_el(`${this.rootElement} div[data-value="${this.selectedValue}"] svg`);
         let input = dom_el(this.formInput);
+
         hide(`${this.rootElement} .placeholder`);
         unhide(this.displayArea);
 
-        if (!this.isMultiple) {
-            changeCssForDomArray(`${this.selectItems} svg`, 'hidden');
-            dom_el(this.displayArea).innerText = selectedLabel;
-            input.value = selectedValue;
-            unhide(`${this.clickArea} .reset`);
-            unhide(svg, true);
-            dom_el(`${this.clickArea} .reset`).addEventListener('click', (e) => {
-                this.unsetValue(item);
-                e.stopImmediatePropagation();
-            });
-        } else {
-            if (input.value.includes(selectedValue)) {
-                this.unsetValue(item);
-            } else {
-                unhide(svg, true);
-                input.value += `,${selectedValue}`;
-                dom_el(this.displayArea).innerHTML += this.labelTemplate(selectedLabel, selectedValue);
-                this.removeLabel(selectedValue);
-            }
-            this.scrollers();
+        if (this.toFilter) {
+            this.filter(this.toFilter, this.selectedValue);
         }
-        stripComma(input);
-        changeCss(`${this.clickArea}`, '!border-error-400', 'remove');
+
+        if (this.enabled) {
+            if (!this.isMultiple) {
+                changeCssForDomArray(`${this.selectItems} svg`, 'hidden');
+                dom_el(this.displayArea).innerText = selectedLabel;
+                input.value = this.selectedValue;
+                unhide(svg, true);
+                this.moveLabel();
+                if (this.canClear) {
+                    unhide(`${this.clickArea} .reset`);
+                    dom_el(`${this.clickArea} .reset`).addEventListener('click', (e) => {
+                        this.unsetValue(item);
+                        e.stopImmediatePropagation();
+                    });
+                }
+            } else {
+                if (input.value.includes(this.selectedValue)) {
+                    this.unsetValue(item);
+                } else {
+                    if (!this.maxSelectableExceeded()) {
+                        unhide(svg, true);
+                        input.value += `,${this.selectedValue}`;
+                        dom_el(this.displayArea).innerHTML += this.labelTemplate(selectedLabel, this.selectedValue);
+                        this.removeLabel(this.selectedValue);
+                    } else {
+                        showNotification('', this.maxSelectionError, 'error');
+                    }
+                    this.moveLabel();
+                }
+                this.scrollbars();
+            }
+            stripComma(input);
+            changeCss(`${this.clickArea}`, '!border-red-400', 'remove');
+        }
     }
 
     unsetValue = (item) => {
-        let selectedValue = item.getAttribute('data-value');
-        let svg = dom_el(`${this.rootElement} div[data-value="${selectedValue}"] svg`);
+        this.selectedValue = item.getAttribute('data-value');
+        // let selectedValue = item.getAttribute('data-value');
+        let svg = dom_el(`${this.rootElement} div[data-value="${this.selectedValue}"] svg`);
         let input = dom_el(this.formInput);
+
         // only unset values if the Select component is not disabled
-        if (!dom_el(this.clickArea).classList.contains('cursor-not-allowed')) {
+        if (this.enabled) { //!dom_el(this.clickArea).classList.contains('disabled')
             if (!this.isMultiple) {
                 unhide(`${this.rootElement} .placeholder`);
                 changeCssForDomArray(`${this.selectItems} svg`, 'hidden');
@@ -122,24 +174,27 @@ class BladewindSelect {
                 input.value = '';
                 hide(this.displayArea);
                 hide(`${this.clickArea} .reset`);
+                this.moveLabel('down');
             } else {
-                if (dom_el(`${this.displayArea} span.bw-sp-${selectedValue}`)) {
-                    let keyword = `(,?)${selectedValue}`;
+                if (dom_el(`${this.displayArea} span.bw-sp-${this.selectedValue}`)) {
+                    let keyword = `(,?)${this.selectedValue}`;
                     input.value = input.value.replace(input.value.match(keyword)[0], '');
                     hide(svg, true);
-                    dom_el(`${this.displayArea} span.bw-sp-${selectedValue}`).remove();
+                    dom_el(`${this.displayArea} span.bw-sp-${this.selectedValue}`).remove();
                     if (dom_el(this.displayArea).innerText === '') {
                         unhide(`${this.rootElement} .placeholder`);
                         hide(this.displayArea);
+                        this.moveLabel('down');
                     }
                 }
             }
             stripComma(input);
             this.callUserFunction(item);
+            this.clearFilter(this.toFilter);
         }
     }
 
-    scrollers = () => {
+    scrollbars = () => {
         if (dom_el(this.displayArea).scrollWidth > dom_el(this.rootElement).clientWidth) {
             unhide(`${this.clickArea} .scroll-left`);
             unhide(`${this.clickArea} .scroll-right`);
@@ -159,9 +214,12 @@ class BladewindSelect {
 
     scroll = (amount) => {
         dom_el(this.displayArea).scrollBy(amount, 0);
-        ((dom_el(this.displayArea).clientWidth + dom_el(this.displayArea).scrollLeft) >=
-            dom_el(this.displayArea).scrollWidth) ? hide(`${this.clickArea} .scroll-right`) : unhide(`${this.clickArea} .scroll-right`);
-        (dom_el(this.displayArea).scrollLeft === 0) ? hide(`${this.clickArea} .scroll-left`) : unhide(`${this.clickArea} .scroll-left`);
+        ((dom_el(this.displayArea).clientWidth + dom_el(this.displayArea).scrollLeft) >= dom_el(this.displayArea).scrollWidth) ?
+            hide(`${this.clickArea} .scroll-right`) :
+            unhide(`${this.clickArea} .scroll-right`);
+        (dom_el(this.displayArea).scrollLeft === 0) ?
+            hide(`${this.clickArea} .scroll-left`) :
+            unhide(`${this.clickArea} .scroll-left`);
     }
 
     labelTemplate = (label, value) => {
@@ -189,28 +247,32 @@ class BladewindSelect {
     }
 
     reset = () => {
-        dom_els(this.selectItems).forEach((el) => {
-            this.unsetValue(el);
-        });
-        hide(this.displayArea);
-        unhide(this.placeholder);
+        if (this.enabled) {
+            dom_els(this.selectItems).forEach((el) => {
+                this.unsetValue(el);
+            });
+            hide(this.displayArea);
+            unhide(this.placeholder);
+        }
     }
 
     disable = () => {
-        changeCss(this.clickArea, 'opacity-40, select-none, cursor-not-allowed');
-        changeCss(this.clickArea, 'focus:border-blue-400, cursor-pointer', 'remove');
+        changeCss(this.clickArea, 'disabled');
+        changeCss(this.clickArea, 'enabled, readonly', 'remove');
         // hide(`${this.clickArea} .reset`);
         dom_el(this.clickArea).addEventListener('click', () => {
             hide(this.itemsContainer);
         });
+        this.enabled = false;
     }
 
     enable = () => {
-        changeCss(this.clickArea, 'opacity-40, select-none, cursor-not-allowed', 'remove');
-        changeCss(this.clickArea, 'focus:border-blue-400, cursor-pointer');
+        changeCss(this.clickArea, 'readonly, disabled', 'remove');
+        changeCss(this.clickArea, 'enabled');
         dom_el(this.clickArea).addEventListener('click', (e) => {
             unhide(this.itemsContainer);
         });
+        this.enabled = true;
     }
 
     callUserFunction = (item) => {
@@ -225,5 +287,40 @@ class BladewindSelect {
         }
     }
 
+    maxSelectable = (max_number, error_message) => {
+        this.maxSelection = (this.isMultiple) ? max_number : false;
+        this.maxSelectionError = error_message;
+    }
 
+    maxSelectableExceeded = () => {
+        let input = dom_el(this.formInput);
+        let total_selected = (input.value.split(',')).length;
+        return ((this.maxSelection !== -1) && total_selected === this.maxSelection);
+    }
+
+    filter = (element, by = '') => {
+        this.toFilter = element;
+        if (by !== '') { //this.selectedValue
+            dom_els(`.bw-select-${element}  .bw-select-items .bw-select-item`).forEach((el) => {
+                const filter_value = el.getAttribute('data-filter-value');
+                (filter_value === by) ? unhide(el, true) : hide(el, true);
+            });
+        }
+    }
+
+    clearFilter = (element, by = '') => {
+        if (element) {
+            const element_items = `.bw-select-${element}  .bw-select-items .bw-select-item`;
+            if (by === '') { // clear all filters
+                dom_els(element_items).forEach((el) => {
+                    unhide(el, true);
+                });
+            } else { // clear specific values' filters
+                dom_els(element_items).forEach((el) => {
+                    const filter_value = el.getAttribute('data-filter-value');
+                    (filter_value === this.selectedValue) ? hide(el, true) : unhide(el, true);
+                });
+            }
+        }
+    }
 }

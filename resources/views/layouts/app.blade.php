@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 
 @section('title', 'Dashboard')
-    <title>{{ $title ?? 'Sistema Inventario' }}</title>
+<title>{{ $title ?? 'Sistema Inventario' }}</title>
 @section('content_header')
 
 @stop
@@ -17,7 +17,8 @@
 @stop
 
 @section('js')
-    {{-- @livewireScriptConfig --}}
+    {{-- @livewireScripts --}}
     @vite(['resources/js/app.js'])
     <script src="{{ asset('vendor/pikaday/pikaday.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @stop
