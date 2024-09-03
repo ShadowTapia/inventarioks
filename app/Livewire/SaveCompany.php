@@ -74,89 +74,37 @@ class SaveCompany extends Component
                 $this->msg = 'Compañia creada con exito!!';
             }
             DB::commit();
-            $this->js('
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.onmouseenter = Swal.stopTimer;
-                        toast.onmouseleave = Swal.resumeTimer;
-                    }
-                });
-                Toast.fire({
-                        icon: "success",
-                        title: " ' . $this->msg . ' "
-                });
-            ');
+            $this->dispatch('alert', [
+                'type' => 'success',
+                'message' => $this->msg,
+            ]);
             return redirect()->route('companies');
         } catch (ValidationException $e) {
             DB::rollBack();
             $message = "Error, " . $e->getMessage() . ".¡Favor de informar al Administrador!";
             throw $e;
-            $this->js('
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.onmouseenter = Swal.stopTimer;
-                        toast.onmouseleave = Swal.resumeTimer;
-                    }
-                });
-                Toast.fire({
-                        icon: "error",
-                        title: " ' . $message . ' "
-                });
-            ');
+            $this->dispatch('alert', [
+                'type' => 'error',
+                'message' => $message,
+            ]);
             return redirect()->back();
         } catch (ModelNotFoundException $e) {
             DB::rollBack();
             $message = "Error, " . $e->getMessage() . ".¡Favor de informar al Administrador!";
             throw $e;
-            $this->js('
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.onmouseenter = Swal.stopTimer;
-                        toast.onmouseleave = Swal.resumeTimer;
-                    }
-                });
-                Toast.fire({
-                        icon: "error",
-                        title: " ' . $message . ' "
-                });
-            ');
+            $this->dispatch('alert', [
+                'type' => 'error',
+                'message' => $message,
+            ]);
             return redirect()->back();
         } catch (\Exception $e) {
             DB::rollBack();
             $message = "Error, " . $e->getMessage() . ".¡Favor de informar al Administrador!";
             throw $e;
-            $this->js('
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.onmouseenter = Swal.stopTimer;
-                        toast.onmouseleave = Swal.resumeTimer;
-                    }
-                });
-                Toast.fire({
-                        icon: "error",
-                        title: " ' . $message . ' "
-                });
-            ');
+            $this->dispatch('alert', [
+                'type' => 'error',
+                'message' => $message,
+            ]);
             return redirect()->back();
         }
     }

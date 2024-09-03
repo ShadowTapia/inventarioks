@@ -33,6 +33,7 @@ final class CompaniesTable extends PowerGridComponent
                 }),
         ];
     }
+
     public function setUp(): array
     {
         return [
@@ -148,23 +149,10 @@ final class CompaniesTable extends PowerGridComponent
             ');
         } else {
             $comp->deleteOrFail();
-            $this->js('
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.onmouseenter = Swal.stopTimer;
-                        toast.onmouseleave = Swal.resumeTimer;
-                    }
-                });
-                Toast.fire({
-                        icon: "success",
-                        title: "¡Borrado exitoso!"
-                });
-            ');
+            $this->dispatch('alert', [
+                'type' => 'success',
+                'message' => "Compañia borrada existosamente!!",
+            ]);
             $this->fillData();
         }
     }
@@ -200,18 +188,4 @@ final class CompaniesTable extends PowerGridComponent
                 }),
         ];
     }
-
-
-
-    /*
-    public function actionRules($row): array
-    {
-       return [
-            // Hide button edit for ID 1
-            Rule::button('edit')
-                ->when(fn($row) => $row->id === 1)
-                ->hide(),
-        ];
-    }
-    */
 }

@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/pikaday/pikaday.css') }}">
 @stop
 <x-toaster-hub />
+@livewire('wire-elements-modal')
 @section('content')
     {{ $slot }}
 @stop
