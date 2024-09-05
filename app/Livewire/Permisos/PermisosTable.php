@@ -117,42 +117,16 @@ final class PermisosTable extends PowerGridComponent
         ]);
 
         if ($updated) {
-            $this->js('
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.onmouseenter = Swal.stopTimer;
-                        toast.onmouseleave = Swal.resumeTimer;
-                    }
-                });
-                Toast.fire({
-                        icon: "success",
-                        title: "¡Actualización exitosa!"
-                });
-            ');
+            $this->dispatch('alert', [
+                'type' => 'success',
+                'message' => "¡Actualización exitosa!",
+            ]);
             $this->fillData();
         } else {
-            $this->js('
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.onmouseenter = Swal.stopTimer;
-                        toast.onmouseleave = Swal.resumeTimer;
-                    }
-                });
-                Toast.fire({
-                        icon: "error",
-                        title: "No se pudo editar el valor.-"
-                });
-            ');
+            $this->dispatch('alert', [
+                'type' => 'error',
+                'message' => "No se pudo editar el valor.-",
+            ]);
         }
     }
 }

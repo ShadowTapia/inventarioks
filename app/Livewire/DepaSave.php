@@ -2,14 +2,15 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Department\DepaTable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use App\Models\department;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Livewire\Component;
 use Livewire\Attributes\Layout;
+use LivewireUI\Modal\ModalComponent;
 
-class DepaSave extends Component
+class DepaSave extends ModalComponent
 {
     public $name;
     public $description;
@@ -59,23 +60,46 @@ class DepaSave extends Component
                 $this->msg = "Departamento creado con exito!!";
             }
             DB::commit();
-            return redirect()->route('departamentos')->with(['success' => $this->msg]);
+            $this->resetFields();
+            $this->closeModal();
+            $this->dispatch('$refresh')->to(DepaTable::class);
+            $this->dispatch('alert', [
+                'type' => 'success',
+                'message' => $this->msg,
+            ]);
         } catch (ValidationException $e) {
             DB::rollBack();
             $message = "Error, " . $e->getMessage() . ".¡Favor de informar al Administrador!";
             throw $e;
-            return redirect()->back()->withError($message);
+            $this->dispatch('alert', [
+                'type' => 'error',
+                'message' => $message,
+            ]);
         } catch (ModelNotFoundException $e) {
             DB::rollBack();
             $message = "Error, " . $e->getMessage() . ".¡Favor de informar al Administrador!";
             throw $e;
-            return redirect()->back()->withError($message);
+            $this->dispatch('alert', [
+                'type' => 'error',
+                'message' => $message,
+            ]);
         } catch (\Exception $e) {
             DB::rollBack();
             $message = "Error, " . $e->getMessage() . ".¡Favor de informar al Administrador!";
             throw $e;
-            return redirect()->back()->withError($message);
+            $this->dispatch('alert', [
+                'type' => 'error',
+                'message' => $message,
+            ]);
         }
+    }
+
+    public function resetFields()
+    {
+        $this->name = '';
+        $this->description = '';
+        $this->responsible = '';
+        $this->resetValidation();
     }
 
     public function init($id)

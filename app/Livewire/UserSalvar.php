@@ -115,6 +115,9 @@ class UserSalvar extends ModalComponent
         }
     }
 
+    /**
+     * Se encarga de limpiar los campos del formulario
+     */
     public function resetFields()
     {
         $this->resetValidation();

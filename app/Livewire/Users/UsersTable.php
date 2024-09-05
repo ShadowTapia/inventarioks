@@ -17,7 +17,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
 final class UsersTable extends PowerGridComponent
 {
-
+    //Creamos un listerner para refrescar la tabla desde un componente externo
     protected $listeners = [
         '$refresh'
     ];

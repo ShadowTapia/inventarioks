@@ -3,8 +3,6 @@
 namespace App\Livewire;
 
 use App\Models\company;
-use Illuminate\Auth\Access\Gate;
-use Livewire\Attributes\On;
 use LivewireUI\Modal\ModalComponent;
 
 
