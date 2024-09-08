@@ -64,22 +64,38 @@ class SupplierSave extends Component
                 $this->msg = 'Proveedor creado con exito!!';
             }
             DB::commit();
-            return redirect()->route('suppliers')->with(['success' => $this->msg]);
+            $this->dispatch('alert', [
+                'type' => 'success',
+                'message' => $this->msg,
+            ]);
+            return redirect()->route('suppliers');
         } catch (ValidationException $e) {
             DB::rollBack();
             $message = "Error, " . $e->getMessage() . ".¡Favor de informar al Administrador!";
             throw $e;
-            return redirect()->back()->withError($message);
+            $this->dispatch('alert', [
+                'type' => 'error',
+                'message' => $message,
+            ]);
+            return redirect()->back();
         } catch (ModelNotFoundException $e) {
             DB::rollBack();
             $message = "Error, " . $e->getMessage() . ".¡Favor de informar al Administrador!";
             throw $e;
-            return redirect()->back()->withError($message);
+            $this->dispatch('alert', [
+                'type' => 'error',
+                'message' => $message,
+            ]);
+            return redirect()->back();
         } catch (\Exception $e) {
             DB::rollBack();
             $message = "Error, " . $e->getMessage() . ".¡Favor de informar al Administrador!";
             throw $e;
-            return redirect()->back()->withError($message);
+            $this->dispatch('alert', [
+                'type' => 'error',
+                'message' => $message,
+            ]);
+            return redirect()->back();
         }
     }
 

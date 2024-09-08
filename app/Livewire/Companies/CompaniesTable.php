@@ -131,7 +131,7 @@ final class CompaniesTable extends PowerGridComponent
         $products = $comp->products()->count();
         if ($products > 0) {
             $this->dispatch('alert', [
-                'type' => 'error',
+                'type' => 'warning',
                 'message' => "Existen productos asociados a esta compañía.-",
             ]);
         } else {
