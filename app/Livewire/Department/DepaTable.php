@@ -123,8 +123,8 @@ final class DepaTable extends PowerGridComponent
         $devices = $depa->devices()->count();
         if ($devices > 0) {
             $this->dispatch('alert', [
-                'type' => 'error',
-                'message' => "Existen productos asociados a esta compañía.-",
+                'type' => 'warning',
+                'message' => "Existen dispositivos asociados a este Departamento.-",
             ]);
         } else {
             $depa->deleteOrFail();

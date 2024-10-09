@@ -6,43 +6,51 @@
         {{ __('Se encarga de ingresar un nuevo producto.') }}
     </x-slot>
     <x-slot name="content">
-        <form wire:submit.prevent="submit">
+        <form wire:submit.prevent="submit" enctype="multipart/form-data">
             {{-- nombre --}}
             <div class="colspan-6 sm:col-span-4">
                 <x-label for="name" value="{{ __('Nombre Producto *') }}"></x-label>
-                <x-bladewind.input id="name" wire:model.lazy="name" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600"/>
+                <x-bladewind.input id="name" wire:model.lazy="name"
+                    class="block w-full mt-1 border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" />
                 <x-input-error for="name" class="mt-2"></x-input-error>
             </div>
             {{-- Descripción --}}
             <div class="colspan-6 sm:col-span-4">
                 <x-label for="description" value="{{ __('Descripción') }}"></x-label>
-                <x-bladewind.textarea id="description" wire:model.lazy="description" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600"/>
+                <x-bladewind.textarea id="description" wire:model.lazy="description"
+                    class="block w-full mt-1 border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" />
                 <x-input-error for="description" class="mt-2"></x-input-error>
             </div>
             {{-- modelo --}}
             <div class="colspan-6 sm:col-span-4">
                 <x-label for="modelo" value="{{ __('Modelo') }}"></x-label>
-                <x-bladewind.input id="modelo" wire:model.lazy="modelo" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600"/>
+                <x-bladewind.input id="modelo" wire:model.lazy="modelo"
+                    class="block w-full mt-1 border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" />
                 <x-input-error for="modelo" class="mt-2"></x-input-error>
             </div>
-            {{-- Subir foto --}}
-            <div class="mb-3 row">
-                <div class="col">
-                    <div class="bg-gray-900">
-                        @if ($file)
-                            <img id="picture" src="{{ $file->temporaryUrl() }}" alt="">
-                        @else
-                            <img id="picture" src="{{ asset('images/insertfoto.png') }}" alt="">
-                        @endif
+            @if ($enableEdit) {{-- Si se habilita muestra el ingreso de imagenes --}}
+                {{-- Subir foto --}}
+                <div class="mb-3 row">
+                    <div class="col">
+                        <div class="bg-gray-900">
+                            @if ($photo)
+                                <img id="picture" src="{{ $photo->temporaryUrl() }}" alt="">
+                            @else
+                                <img id="picture" src="{{ asset('images/insertfoto.png') }}" alt="">
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col">
+                        <x-label for="photo" value="{{ __('Foto') }}"></x-label>
+                        <input id="photo" type="file" wire:model="photo" class="form-control-file" />
+                        @error('photo')
+                            <span class="error">{{ $message }}</span>
+                        @enderror
+                        <p>Se deben subir archivos fotograficos de tipo png o jpg y de un máximo de 800Kb.</p>
                     </div>
                 </div>
-                <div class="col">
-                    <x-label for="file" value="{{ __('Foto') }}"></x-label>
-                    <input id="file" type="file" wire:model="file" accept="image/*"/>
-                    @error('file') <span class="error">{{ $message }}</span> @enderror
-                    <p>Se deben subir archivos fotograficos de tipo png o jpg y de un máximo de 800Kb.</p>
-                </div>
-            </div>
+            @endif
+
             {{-- Tipo de Producto --}}
             <div class="colspan-6 sm:col-span-4">
                 <x-label for="productype" value="{{ __('Tipo de Producto') }}"></x-label>
@@ -55,7 +63,7 @@
                             </option>
                         @endforeach
                     @else
-                            No existen Registros
+                        No existen Registros
                     @endif
                 </select>
             </div>
@@ -71,7 +79,7 @@
                             </option>
                         @endforeach
                     @else
-                            No existen registros
+                        No existen registros
                     @endif
                 </select>
             </div>
@@ -87,22 +95,16 @@
                             </option>
                         @endforeach
                     @else
-                            No existen registros
+                        No existen registros
                     @endif
                 </select>
             </div>
             {{-- Botón Guardar --}}
-            <x-bladewind.button
-                color="purple"
-                name="save-prodct"
-                can_submit="true"
+            <x-bladewind.button color="purple" name="save-prodct" can_submit="true"
                 class="px-4 py-2 mt-3 text-xs font-semibold tracking-widest text-white uppercase transition ease-in-out border shadow-lg shadow-purple-500/50 focus:ring-offset-2">
                 Guardar
             </x-bladewind.button>
 
-            <div wire:loading>
-                Validando datos...
-            </div>
             <div wire:loading wire:target="file">Subiendo...</div>
         </form>
     </x-slot>

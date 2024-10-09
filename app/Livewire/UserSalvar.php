@@ -22,6 +22,7 @@ class UserSalvar extends ModalComponent
     public array $userRoles;
 
     public $user;
+    public $title;
     public $msg = "";
 
     protected $rules = [
@@ -38,7 +39,7 @@ class UserSalvar extends ModalComponent
 
     public function render()
     {
-        return view('livewire.user-salvar', ['enableEdit' => $this->enabledEdit])
+        return view('livewire.user-salvar', ['enableEdit' => $this->enabledEdit, 'title' => $this->title])
             ->withRoles(
                 cache()->remember('roles', 60, function () {
                     return Role::all();
@@ -49,7 +50,7 @@ class UserSalvar extends ModalComponent
     /**
      * Se encarga de agregar un nuevo usuario
      */
-    public function saveUser()
+    public function submit()
     {
         if ($this->user)
             $this->rules['email'] = 'required|email|unique:users,email,' . $this->user->id;
@@ -132,8 +133,10 @@ class UserSalvar extends ModalComponent
 
         if ($id) {
             $user = User::findOrFail($id);
+            $this->title = "Actualizar Usuario";
             $this->userRoles = $user->roles()->pluck('id')->toArray();
         } else {
+            $this->title = "Crear Usuario";
             $this->enabledEdit = false;
         }
 

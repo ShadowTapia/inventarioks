@@ -1,10 +1,20 @@
 <div class="p-6">
-    <form id="AddUser" wire:submit="save">
+    <div class="text-lg font-medium text-gray-100 dark:text-gray-100">
+        {{ $title }}
+    </div>
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+    <form id="AddUser" wire:submit.prevent="submit">
         <div>
             {{-- Name --}}
             <div class="col-span-6 sm:col-span-4">
                 <x-label for="name" value="{{ __('Nombre') }}" />
-                <x-input id="name" type="text" class="block w-full mt-1" wire:model.lazy="name" required />
+                <x-bladewind.input id="name" wire:model.lazy="name" required="true" prefix="user"
+                    prefix_is_icon="true"
+                    class="block w-full mt-1 border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" />
                 <x-input-error for="name" class="mt-2" />
             </div>
         </div>
@@ -12,7 +22,9 @@
             {{-- Email --}}
             <div class="col-span-6 sm:col-span-4">
                 <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" type="email" class="block w-full mt-1" wire:model.lazy="email" required />
+                <x-bladewind.input id="email" type="email" wire:model.lazy="email" required="true"
+                    prefix="envelope" prefix_is_icon="true"
+                    class="block w-full mt-1 border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" />
                 <x-input-error for="email" class="mt-2" />
             </div>
         </div>
@@ -20,7 +32,9 @@
             {{-- Password --}}
             <div class="col-span-6 sm:col-span-4">
                 <x-label for="password" value="{{ __('Contraseña') }}" />
-                <x-input id="password" type="password" class="block w-full mt-1" wire:model.lazy="password" required />
+                <x-bladewind.input id="password" type="password" wire:model.lazy="password" required="true"
+                    prefix="key" prefix_is_icon="true"
+                    class="block w-full mt-1 border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" />
                 <x-input-error for="password" class="mt-2" />
             </div>
         </div>
@@ -38,12 +52,17 @@
             </div>
         @endif
 
-        <div class="flex flex-row justify-end px-6 py-4 text-right bg-gray-100 dark:bg-gray-800">
-            <x-secondary-button wire:click="saveUser()" wire:loading.attr="disabled">
-                {{ __('Guardar') }}
-            </x-secondary-button>
+
+        <div class="footer flex flex-row justify-end px-6 py-4 text-right bg-gray-100 dark:bg-gray-800">
+            {{-- Boton guardar --}}
+            <x-bladewind.button color="purple" has_spinner="true" name="save-user" can_submit="true"
+                class="px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition ease-in-out border shadow-lg shadow-purple-500/50 focus:ring-offset-2">
+                Guardar
+            </x-bladewind.button>
+
+            <div wire:loading>
+                Validando datos...
+            </div>
         </div>
-
-
     </form>
 </div>

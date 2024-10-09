@@ -11,8 +11,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Rule;
-use Livewire\Features\SupportFileUploads\WithFileUploads;
+use Livewire\Attributes\Validate;
+use Livewire\WithFileUploads;
 
 class SaveProduct extends Component
 {
@@ -26,8 +26,10 @@ class SaveProduct extends Component
     public $supplier_id;
     public $company_id;
 
-    #[Rule('image|max:1024|nullable')] // 1MB Max
-    public $file;
+    #[Validate('image|max:1024|nullable')] // 1MB Max
+    public $photo;
+
+    public $enableEdit = false; //Se encargará de mostrar el ingreso de fotos para los productos
 
     public $title;
     public $msg = "";
@@ -54,43 +56,75 @@ class SaveProduct extends Component
 
         DB::beginTransaction();
         try {
-            $product = products::create([
-                'name' => $this->name,
-                'description' => $this->description,
-                'modelo' => $this->modelo,
-                'users_id' => auth()->id(), //Guardamos el id de usuario logueado
-                'productype_id' => $this->productype_id,
-                'supplier_id' => $this->supplier_id,
-                'company_id' => $this->company_id,
-
-            ]);
-
-            $this->msg = "Producto creado con exito.!";
-            DB::commit();
-
-
-            if ($this->file) {
-                $url = $this->file->store('public/products');
-                $product->image()->create([
-                    'url' => $url
+            //Crear codigo para actualizar el producto
+            if ($this->products) {
+                $this->products->update([
+                    'name' => $this->name,
+                    'description' => $this->description,
+                    'modelo' => $this->modelo,
+                    'productype_id' => $this->productype_id,
+                    'supplier_id' => $this->supplier_id,
+                    'company_id' => $this->company_id,
                 ]);
+                $this->msg = "Producto actualizado con exito.!";
+            } else {
+                $product = products::create([
+                    'name' => $this->name,
+                    'description' => $this->description,
+                    'modelo' => $this->modelo,
+                    'users_id' => auth()->id(), //Guardamos el id de usuario logueado
+                    'productype_id' => $this->productype_id,
+                    'supplier_id' => $this->supplier_id,
+                    'company_id' => $this->company_id,
+                ]);
+                $this->msg = "Producto creado con exito.!";
+                DB::commit();
+
+                if ($this->photo) {
+                    $url = $this->photo->store('public/products');
+                    $product->image()->create([
+                        'url' => $url
+                    ]);
+                } else {
+                    $url = "products/no_photo.png";
+                    $product->image()->create([
+                        'url' => $url
+                    ]);
+                }
             }
-            return redirect()->route('productslist')->with(['success' => $this->msg]);
+
+            $this->dispatch('alert', [
+                'type' => 'success',
+                'message' => $this->msg,
+            ]);
+            return redirect()->route('productslist');
         } catch (ValidationException $e) {
             DB::rollBack();
             $message = "Error, " . $e->getMessage() . ".¡Favor de informar al Administrador!";
             throw $e;
-            return redirect()->back()->withError($message);
+            $this->dispatch('alert', [
+                'type' => 'error',
+                'message' => $message,
+            ]);
+            return redirect()->back();
         } catch (ModelNotFoundException $e) {
             DB::rollBack();
             $message = "Error, " . $e->getMessage() . ".¡Favor de informar al Administrador!";
             throw $e;
-            return redirect()->back()->withError($message);
+            $this->dispatch('alert', [
+                'type' => 'error',
+                'message' => $message,
+            ]);
+            return redirect()->back();
         } catch (\Exception $e) {
             DB::rollBack();
             $message = "Error, " . $e->getMessage() . ".¡Favor de informar al Administrador!";
             throw $e;
-            return redirect()->back()->withError($message);
+            $this->dispatch('alert', [
+                'type' => 'error',
+                'message' => $message,
+            ]);
+            return redirect()->back();
         }
     }
 
@@ -102,6 +136,7 @@ class SaveProduct extends Component
         $companys = company::all();
         return view('livewire.save-product', [
             'title' => $this->title,
+            'enableEdit' => $this->enableEdit,
             'productypes' => $productypes,
             'suppliers' => $suppliers,
             'companys' => $companys
@@ -115,8 +150,10 @@ class SaveProduct extends Component
         if ($id) {
             $this->title = "Actualizar Producto";
             $products = products::findOrFail($id);
+            $this->enableEdit = false;
         } else {
             $this->title = "Crear Producto";
+            $this->enableEdit = true;
         }
 
         $this->products = $products;
@@ -126,6 +163,9 @@ class SaveProduct extends Component
             $this->description = $this->products->description;
             $this->modelo = $this->products->modelo;
             $this->url = $this->products->url;
+            $this->productype_id = $this->products->productype_id;
+            $this->supplier_id = $this->products->supplier_id;
+            $this->company_id = $this->products->company_id;
         }
     }
 }
