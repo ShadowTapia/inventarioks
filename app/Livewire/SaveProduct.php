@@ -78,7 +78,6 @@ class SaveProduct extends Component
                     'company_id' => $this->company_id,
                 ]);
                 $this->msg = "Producto creado con exito.!";
-                DB::commit();
 
                 if ($this->photo) {
                     $url = $this->photo->store('public/products');
@@ -92,7 +91,7 @@ class SaveProduct extends Component
                     ]);
                 }
             }
-
+            DB::commit();
             $this->dispatch('alert', [
                 'type' => 'success',
                 'message' => $this->msg,

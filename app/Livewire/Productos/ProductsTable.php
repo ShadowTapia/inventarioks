@@ -3,15 +3,12 @@
 namespace App\Livewire\Productos;
 
 use App\Models\products;
-use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Storage;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Exportable;
-use PowerComponents\LivewirePowerGrid\Facades\Filter;
-use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
@@ -126,8 +123,10 @@ final class ProductsTable extends PowerGridComponent
             Column::make('Empresa', 'empresa_name')
                 ->headerAttribute('bg-sky-700 text-white text-center text-sm'),
             Column::make('Foto', 'avatar')
+                ->visibleInExport(visible: false)
                 ->headerAttribute('bg-sky-700 text-white text-center text-sm'),
             Column::action('Acciones')
+                ->visibleInExport(visible: false)
                 ->headerAttribute('bg-sky-700 text-white text-center text-sm')
         ];
     }
