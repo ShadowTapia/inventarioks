@@ -1,5 +1,5 @@
 <div class="p-6">
-    <div class="text-lg font-medium text-gray-100 dark:text-gray-100">
+    <div class="text-lg font-medium text-gray-100">
         {{ $title }}
     </div>
     @if (session('error'))
@@ -12,14 +12,14 @@
         <div class="colspan-6 sm:col-span-4">
             <x-label for="name" value="{{ __('Nombre Tipo de Producto *') }}"></x-label>
             <x-bladewind.input id="name" wire:model.lazy="name"
-                class="block w-full mt-1 border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" />
+                class="block w-full mt-1 text-gray-300 bg-gray-900 border-gray-700 rounded-md shadow-sm focus:border-indigo-600 focus:ring-indigo-600" />
             <x-input-error for="name" class="mt-2" />
         </div>
         {{-- Descripción --}}
         <div class="colspan-6 sm:col-span-4">
             <x-label for="description" value="{{ __('Descripción') }}"></x-label>
             <x-bladewind.textarea id="description" wire:model.lazy="description"
-                class="block w-full mt-1 border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" />
+                class="block w-full mt-1 text-gray-300 bg-gray-900 border-gray-700 rounded-md shadow-sm focus:border-indigo-600 focus:ring-indigo-600" />
             <x-input-error for="description" class="mt-2" />
         </div>
         <div class="flex flex-row justify-end px-6 py-4 text-right bg-gray-100 footer dark:bg-gray-800">

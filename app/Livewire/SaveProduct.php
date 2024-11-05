@@ -27,7 +27,7 @@ class SaveProduct extends Component
     public $company_id;
 
     #[Validate('image|max:1024|nullable')] // 1MB Max
-    public $photo;
+    public $file;
 
     public $enableEdit = false; //Se encargará de mostrar el ingreso de fotos para los productos
 
@@ -79,8 +79,8 @@ class SaveProduct extends Component
                 ]);
                 $this->msg = "Producto creado con exito.!";
 
-                if ($this->photo) {
-                    $url = $this->photo->store('public/products');
+                if ($this->file) {
+                    $url = $this->file->store('public/products');
                     $product->image()->create([
                         'url' => $url
                     ]);
