@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Blade;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Exportable;
+use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
@@ -21,10 +22,16 @@ final class DeviceTable extends PowerGridComponent
 {
     use WithExport;
 
+
     //Creamos un listerner para refrescar la tabla desde un componente externo
     protected $listeners = [
         '$refresh'
     ];
+
+    public function boot(): void
+    {
+        config(['livewire-powergrid.filter' => 'outside']);
+    }
 
     public function header(): array
     {
@@ -76,7 +83,8 @@ final class DeviceTable extends PowerGridComponent
             ->add('numserie')
             ->add('fechacompra_formatted', fn(devices $model) => Carbon::parse($model->fechacompra)->format('d/m/Y'))
             ->add('comentarios')
-            ->add('estado', fn($dev) => e($dev->estado == '1' ? 'Activo' : 'Inactivo/De baja'))
+            //Ocupamos operador ternario para la siguiente declaración
+            ->add('estado', fn($dev) => e(($dev->estado == '1') ? 'Activo' : (($dev->estado == '2') ? 'Inactivo' : 'De baja')))
             ->add('products_name', fn($devi) => e($devi->product->name))
             ->add('department_name', fn($dev) => e($dev->department->name))
             ->add('created_at');
@@ -120,12 +128,19 @@ final class DeviceTable extends PowerGridComponent
         ];
     }
 
-
-
     public function filters(): array
     {
+        $estado_array = [
+            ['estado' => 1, 'name' => 'Activo'],
+            ['estado' => 2, 'name' => 'Inactivo'],
+            ['estado' => 3, 'name' => 'De baja'],
+        ];
         return [
-            // Filter::datepicker('fechacompra'),
+            Filter::select('name', 'estado')
+                ->dataSource($estado_array)
+                ->optionLabel('name')
+                ->optionValue('estado'),
+
         ];
     }
 
@@ -167,13 +182,13 @@ final class DeviceTable extends PowerGridComponent
     public function actionRules($row): array
     {
         return [
-            Rule::rows()
+            Rule::rows() //indicamos que cuando el estado es igual a 2 la fila toma el color amber
                 ->when(fn($dev) => $dev->estado === '2')
                 ->setAttribute('class', 'bg-amber-400 hover:bg-amber-300'),
-            Rule::rows()
+            Rule::rows() //Si el estado de la fila es 3 el color de ella sera rojo
                 ->when(fn($dev) => $dev->estado === '3')
                 ->setAttribute('class', 'bg-red-800 hover:bg-red-600'),
-            Rule::button('print')
+            Rule::button('print') //Deshabilitamos el boton imprimir código de barra cuando el estado del dispositivo sea de baja
                 ->when(fn($dev) => $dev->estado === '3')
                 ->bladeComponent('livewire-powergrid::icons.arrow', [
                     'class'   => 'w-5 h-5 !text-red-500',
