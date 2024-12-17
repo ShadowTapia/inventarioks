@@ -12,21 +12,21 @@
         <div class="colspan-6 sm:col-span-4">
             <x-label for="name" value="{{ __('Nombre Departamento *') }}"></x-label>
             <x-bladewind.input id="name" wire:model.lazy="name"
-                class="block w-full mt-1 text-gray-300 bg-gray-900 border-gray-700 rounded-md shadow-sm focus:border-indigo-600 focus:ring-indigo-600" />
+                class="block w-full mt-1 text-gray-700 bg-white border-gray-300 rounded-md shadow-sm focus:border-indigo-600 focus:ring-indigo-500" />
             <x-input-error for="name" class="mt-2" />
         </div>
         {{-- Descripción --}}
         <div class="colspan-6 sm:col-span-4">
             <x-label for="description" value="{{ __('Descripción') }}" />
             <x-bladewind.textarea id="description" wire:model.lazy="description"
-                class="block w-full mt-1 text-gray-300 bg-gray-900 border-gray-700 rounded-md shadow-sm focus:border-indigo-600 focus:ring-indigo-600" />
+                class="block w-full mt-1 text-gray-700 bg-white border-gray-300 rounded-md shadow-sm focus:border-indigo-600 focus:ring-indigo-500" />
             <x-input-error for="description" class="mt-2" />
         </div>
         {{-- Responsable --}}
         <div class="colspan-6 sm:col-span-4">
             <x-label for="responsible" value="{{ __('Responsable') }}" />
             <x-bladewind.input id="responsible" wire:model.lazy="responsible"
-                class="block w-full mt-1 text-gray-300 bg-gray-900 border-gray-700 rounded-md shadow-sm focus:border-indigo-600 focus:ring-indigo-600" />
+                class="block w-full mt-1 text-gray-700 bg-white border-gray-300 rounded-md shadow-sm focus:border-indigo-600 focus:ring-indigo-500" />
             <x-input-error for="responsible" class="mt-2" />
         </div>
         <div class="flex flex-row justify-end px-6 py-4 text-right bg-gray-800 footer">

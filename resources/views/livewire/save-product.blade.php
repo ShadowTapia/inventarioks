@@ -11,21 +11,21 @@
             <div class="colspan-6 sm:col-span-4">
                 <x-label for="name" value="{{ __('Nombre Producto *') }}"></x-label>
                 <x-bladewind.input id="name" wire:model.lazy="name"
-                    class="block w-full mt-1 text-gray-300 bg-gray-900 border-gray-700 rounded-md shadow-sm focus:border-indigo-600 focus:ring-indigo-600" />
+                    class="block w-full mt-1 text-gray-700 bg-white border-gray-300 rounded-md shadow-sm focus" />
                 <x-input-error for="name" class="mt-2"></x-input-error>
             </div>
             {{-- Descripción --}}
             <div class="colspan-6 sm:col-span-4">
                 <x-label for="description" value="{{ __('Descripción') }}"></x-label>
                 <x-bladewind.textarea id="description" wire:model.lazy="description"
-                    class="block w-full mt-1 text-gray-300 bg-gray-900 border-gray-700 rounded-md shadow-sm focus:border-indigo-600 focus:ring-indigo-600" />
+                    class="block w-full mt-1 text-gray-700 bg-white border-gray-300 rounded-md shadow-sm focus" />
                 <x-input-error for="description" class="mt-2"></x-input-error>
             </div>
             {{-- modelo --}}
             <div class="colspan-6 sm:col-span-4">
                 <x-label for="modelo" value="{{ __('Modelo') }}"></x-label>
                 <x-bladewind.input id="modelo" wire:model.lazy="modelo"
-                    class="block w-full mt-1 text-gray-300 bg-gray-900 border-gray-700 rounded-md shadow-sm focus:border-indigo-600 focus:ring-indigo-600" />
+                    class="block w-full mt-1 text-gray-700 bg-white border-gray-300 rounded-md shadow-sm focus" />
                 <x-input-error for="modelo" class="mt-2"></x-input-error>
             </div>
             @if ($enableEdit) {{-- Si se habilita muestra el ingreso de imagenes --}}
@@ -54,7 +54,8 @@
             {{-- Tipo de Producto --}}
             <div class="colspan-6 sm:col-span-4">
                 <x-label for="productype" value="{{ __('Tipo de Producto') }}"></x-label>
-                <select id="productype" wire:model="productype_id" class="form-control">
+                <select id="productype" wire:model="productype_id"
+                    class="block w-full mt-1 text-gray-700 bg-white border-gray-300 rounded-md shadow-sm form-control focus">
                     <option value="">Seleccione un Tipo de producto</option>
                     @if ($productypes->count())
                         @foreach ($productypes as $pt)
@@ -70,7 +71,8 @@
             {{-- Proveedor --}}
             <div class="colspan-6 sm:col-span-4">
                 <x-label for="supplier" value="{{ __('Proveedor') }}"></x-label>
-                <select id="supplier" wire:model="supplier_id" class="form-control">
+                <select id="supplier" wire:model="supplier_id"
+                    class="block w-full mt-1 text-gray-700 bg-white border-gray-300 rounded-md shadow-sm form-control focus">
                     <option value="">Seleccione un Proveedor</option>
                     @if ($suppliers->count())
                         @foreach ($suppliers as $sup)
@@ -86,7 +88,8 @@
             {{-- Compañía --}}
             <div class="colspan-6 sm:col-span-4">
                 <x-label for="company" value="{{ __('Empresa') }}"></x-label>
-                <select id="company" wire:model="company_id" class="form-control">
+                <select id="company" wire:model="company_id"
+                    class="block w-full mt-1 text-gray-700 bg-white border-gray-300 rounded-md shadow-sm form-control focus">
                     <option value="">Seleccione una Empresa</option>
                     @if ($companys->count())
                         @foreach ($companys as $com)

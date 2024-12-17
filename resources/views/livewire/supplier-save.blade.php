@@ -16,35 +16,35 @@
             <div class="colspan-6 sm:col-span-4">
                 <x-label for="name" value="{{ __('Nombre Proveedor *') }}"></x-label>
                 <x-bladewind.input id="name" wire:model.lazy="name"
-                    class="block w-full mt-1 text-gray-300 bg-gray-900 border-gray-700 rounded-md shadow-sm focus:border-indigo-600 focus:ring-indigo-600" />
+                    class="block w-full mt-1 text-gray-700 bg-white border-gray-300 rounded-md shadow-sm focus:border-indigo-600 focus:ring-indigo-500" />
                 <x-input-error for="name" class="mt-2" />
             </div>
             {{-- Dirección --}}
             <div class="colspan-6 sm:col-span-4">
                 <x-label for="address" value="{{ __('Dirección Proveedor') }}"></x-label>
                 <x-bladewind.input id="address" wire:model.lazy="address"
-                    class="block w-full mt-1 text-gray-300 bg-gray-900 border-gray-700 rounded-md shadow-sm shadow-black focus:border-indigo-600 focus:ring-indigo-600" />
+                    class="block w-full mt-1 text-gray-700 bg-white border-gray-300 rounded-md shadow-sm focus:border-indigo-600 focus:ring-indigo-500" />
                 <x-input-error for="address" class="mt-2" />
             </div>
             {{-- Contacto --}}
             <div class="colspan-6 sm:col-span-4">
                 <x-label for="contact" value="{{ __('Contacto Proveedor') }}"></x-label>
                 <x-bladewind.input id="contact" wire:model.lazy="contact"
-                    class="block w-full mt-1 text-gray-300 bg-gray-900 border-gray-700 rounded-md shadow-sm focus:border-indigo-600 focus:ring-indigo-600" />
+                    class="block w-full mt-1 text-gray-700 bg-white border-gray-300 rounded-md shadow-sm focus:border-indigo-600 focus:ring-indigo-500" />
                 <x-input-error for="contact" class="mt-2" />
             </div>
             {{-- Email --}}
             <div class="colspan-6 sm:col-span-4">
                 <x-label for="email" value="{{ __('E-mail Proveedor') }}"></x-label>
                 <x-bladewind.input id="email" wire:model.lazy="email"
-                    class="block w-full mt-1 text-gray-300 bg-gray-900 border-gray-700 rounded-md shadow-sm focus:border-indigo-600 focus:ring-indigo-600" />
+                    class="block w-full mt-1 text-gray-700 bg-white border-gray-300 rounded-md shadow-sm focus:border-indigo-600 focus:ring-indigo-500" />
                 <x-input-error for="email" class="mt-2" />
             </div>
             {{-- Fono --}}
             <div class="colspan-6 sm:col-span-4">
                 <x-label for="phone" value="{{ __('Teléfono Proveedor') }}"></x-label>
                 <x-bladewind.input id="phone" name="phone" numeric="true" wire:model.lazy="phone"
-                    class="block w-full mt-1 text-gray-300 bg-gray-900 border-gray-700 rounded-md shadow-sm focus:border-indigo-600 focus:ring-indigo-600" />
+                    class="block w-full mt-1 text-gray-700 bg-white border-gray-300 rounded-md shadow-sm focus:border-indigo-600 focus:ring-indigo-500" />
                 <x-input-error for="phone" class="mt-2" />
             </div>
             {{-- Boton Guardar --}}
