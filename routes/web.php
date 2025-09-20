@@ -9,6 +9,7 @@ use App\Http\Controllers\PrintPDF;
 use App\Livewire\Department;
 use App\Livewire\DepaSave;
 use App\Livewire\Devicelist;
+use App\Livewire\Devibyestado;
 use App\Livewire\PermisosList;
 use App\Livewire\ProductsList;
 use App\Livewire\Productype;
@@ -100,4 +101,6 @@ Route::group(['middleware' => ['auth:sanctum', 'verified'], 'prefix' => 'dashboa
     Route::get('show.device/{id}', ProductsList::class)->middleware('can:devicelist')->name('devi.show');
     Route::get('print.barra/{id}', [PrintCodebaru::class, 'printCodeBar'])->middleware('can:devicelist')->name('print.barra');
     Route::get('print.barraAll', [PrintCodebarAll::class, 'printCodeAll'])->middleware('can:devicelist')->name('print.barraAll');
+    //Devices By Estado
+    Route::get('cdevicesbyestado', Devibyestado::class)->middleware('can:devicelist')->name('devi.estado');
 });

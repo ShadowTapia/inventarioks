@@ -4,22 +4,14 @@ namespace App\Livewire;
 
 use App\Models\permissions;
 use Illuminate\Support\Carbon;
-use illuminate\Http\RedirectResponse;
 use Illuminate\Database\Query\Builder;
-use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
-use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Exportable;
-use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
-use PowerComponents\LivewirePowerGrid\Responsive;
-use PowerComponents\LivewirePowerGrid\Themes\Tailwind;
-use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 class permissionTable extends PowerGridComponent
 {
@@ -79,7 +71,7 @@ class permissionTable extends PowerGridComponent
             ->add('description')
             ->add('guard_name')
             ->add('orden')
-            ->add('created_at_formatted', fn ($dish) => Carbon::parse($dish->created_at)->format('d/m/Y'));
+            ->add('created_at_formatted', fn($dish) => Carbon::parse($dish->created_at)->format('d/m/Y'));
     }
 
     public function columns(): array

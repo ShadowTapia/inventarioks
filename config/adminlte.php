@@ -405,8 +405,18 @@ return [
                 [
                     'text' => 'Dispositivos',
                     'icon' => 'fas fa-fw fa-upload',
-                    'route' => 'devicelist',
-                    'can' => 'devicelist',
+                    'submenu' => [
+                        [
+                            'text' => 'Listado',
+                            'route' => 'devicelist',
+                            'can' => 'devicelist',
+                        ],
+                        [
+                            'text' => 'Por Estado',
+                            'route' => 'devi.estado',
+                            'can' => 'devicelist',
+                        ],
+                    ],
                 ],
             ],
         ],
